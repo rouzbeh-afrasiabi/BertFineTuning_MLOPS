@@ -2,8 +2,8 @@ import pytest
 
 class TestClass:
     def test_one(self):
-        x = "this"
-        assert 'h' in x
+        device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        assert device =="cuda:0"
 
     def test_two(self):
         x = "hello"
