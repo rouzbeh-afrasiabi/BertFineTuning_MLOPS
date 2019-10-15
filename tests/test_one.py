@@ -1,4 +1,5 @@
 import pytest
+import torch
 
 class TestClass:
     def test_one(self):
