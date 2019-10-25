@@ -24,3 +24,11 @@
 <p align='justify'>
 <img src='./images/6.png'></img>
 </p>
+<br>
+<p align='justify'>
+<img src='./images/7.png'></img>
+</p>
+<br>
+<p align='justify'>
+<img src='./images/8.png'></img>
+</p>
