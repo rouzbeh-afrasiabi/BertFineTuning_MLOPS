@@ -20,3 +20,7 @@
 <p align='justify'>
 <img src='./images/5.png'></img>
 </p>
+<br>
+<p align='justify'>
+<img src='./images/6.png'></img>
+</p>
