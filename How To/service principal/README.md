@@ -1,5 +1,5 @@
 
-# Creating Service Principal for MLOPS
+# Creating Service Principal for MLOPS - AzureML
  
 <p align='justify'>
 <img src='./images/1.png'></img>
