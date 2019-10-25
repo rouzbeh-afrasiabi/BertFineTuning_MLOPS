@@ -1,5 +1,5 @@
 
-# service principal
+# Creating Service Principal for MLOPS
  
 <p align='justify'>
 <img src='./images/1.png'></img>
