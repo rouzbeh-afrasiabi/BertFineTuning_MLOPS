@@ -1,3 +1,8 @@
 azureml-sdk==1.0.69
-spacy==2.2.1
 scikit-learn==0.21.3
+pycm==2.2
+pandas==0.25.1
+torch==1.2.0
+spacy==2.1.4
+pytorch_transformers==1.0.0
+numpy==1.17.2
