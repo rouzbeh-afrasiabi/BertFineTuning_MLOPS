@@ -1,5 +1,7 @@
 from azureml.core import Run
+from azureml.core import Workspace
 import argparse
+from azureml.core.authentication import ServicePrincipalAuthentication
 
 def get_args():
 
@@ -16,6 +18,10 @@ def get_args():
 
   args = parser.parse_args()
 
+  return(args)
+
+def get_ws(args):
+  
   tenant_id = args.tenant_id
   application_id = args.application_id
   app_secret = args.app_secret
@@ -24,7 +30,17 @@ def get_args():
   workspace_name = args.workspace_name
   workspace_region = args.workspace_region
   object_id = args.object_id
-      
+  
+  service_principal = ServicePrincipalAuthentication(
+          tenant_id=tenant_id,
+          service_principal_id=application_id,
+          service_principal_password=app_secret)
+
+  ws = Workspace.get(
+              name=workspace_name,
+              subscription_id=subscription_id,
+              resource_group=resource_group,
+              auth=service_principal)
         
 if __name__ == '__main__':
     global run
