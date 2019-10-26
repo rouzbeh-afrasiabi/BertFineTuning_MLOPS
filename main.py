@@ -113,6 +113,6 @@ if __name__ == '__main__':
 #     exists,_=check_file("train.csv","")
 #     print('train file is available:',exists)
 #     def_blob_store.upload_files(
-#                                 ["train.csv"],
-#                                 target_path="data/original/",
+#                                 ["./train.csv"],
+#                                 target_path="data",
 #                                 overwrite=True)
