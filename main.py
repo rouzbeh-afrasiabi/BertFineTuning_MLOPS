@@ -112,7 +112,14 @@ if __name__ == '__main__':
     zip_file.close() 
     exists,_=check_file("train.csv","")
     print('train file is available:',exists)
+    
     def_blob_store.upload_files(
                                 ["./train.csv"],
                                 target_path="data/original/",
                                 overwrite=True)
+    
+    input_data_ref = DataReference(
+                                datastore=def_blob_store,   
+                                data_reference_name="input_data",
+                                path_on_datastore="data/original/train.csv")
+    
