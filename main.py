@@ -10,7 +10,10 @@ import requests
 import shutil
 import zipfile
 import argparse
-from download import download
+try:
+    from download import download
+except:
+    os.system("pip install download")
 
 
 cwd = str(os.getcwd())
