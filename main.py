@@ -6,14 +6,34 @@ from azureml.core.dataset import Dataset
 
 import os
 import sys
+import requests
+import shutil
+import zipfile
 import argparse
+from download import download
 
 
 cwd = str(os.getcwd())
 sys.path.append(cwd)
 sys.path.insert(0, cwd)
     
-
+def download_files(files,download_folder):
+    for file in files:
+        [[_,location]]=file.items()
+        file_name=os.path.basename(location)
+        exists,_=check_file(file_name,download_folder)
+        if(exists):
+            pass
+        else:
+            print('*** Downloading : ',file_name)
+            try:
+                r = requests.get(location, auth=('usrname', 'password'), verify=False,stream=True)
+                r.raw.decode_content = True   
+                with open(os.path.join(download_folder,file_name), 'wb') as f:
+                        shutil.copyfileobj(r.raw, f)
+            except:
+                raise Exception('Failed')
+                
 def check_file(filename,location=cwd):    
     
     return os.path.exists(os.path.join(location,filename)),os.path.join(location,filename)
