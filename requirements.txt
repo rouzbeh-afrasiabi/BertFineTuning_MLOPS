@@ -1,1 +1,2 @@
 azureml-sdk==1.0.69
+spacy==2.2.1
