@@ -47,4 +47,4 @@ if __name__ == '__main__':
     global run
     run = Run.get_context()
     _params=get_args()
-    get_ws(_params)
+    ws=get_ws(_params)
