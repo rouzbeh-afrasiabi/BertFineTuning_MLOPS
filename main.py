@@ -23,11 +23,7 @@ def get_args():
   resource_group = args.resource_group
   workspace_name = args.workspace_name
   workspace_region = args.workspace_region
-  model_name = args.model_name
-  cluster_name_cpu = args.cluster_name_cpu
-  cluster_name_gpu = args.cluster_name_gpu
-  pipeline_experiment_name = args.pipeline_experiment_name
-  pipeline_name = args.pipeline_name
+  object_id = args.object_id
       
         
 if __name__ == '__main__':
