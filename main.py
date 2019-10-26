@@ -6,6 +6,11 @@ import sys
 import argparse
 
 
+cwd = str(os.getcwd())
+sys.path.append(cwd)
+sys.path.insert(0, cwd)
+    
+
 def check_file(filename,location=cwd):    
     
     return os.path.exists(os.path.join(location,filename)),os.path.join(location,filename)
@@ -72,9 +77,6 @@ if __name__ == '__main__':
     def_data_store = ws.get_default_datastore()
     def_blob_store = Datastore(ws, datastore_names[1])
     
-    cwd = str(os.getcwd())
-    sys.path.append(cwd)
-    sys.path.insert(0, cwd)
     
     data_folder=os.path.join(cwd,'data')
     download_folder=os.path.join(cwd,'download')
