@@ -1,6 +1,8 @@
 from azureml.core import Run
 from azureml.core import Workspace
 from azureml.core.authentication import ServicePrincipalAuthentication
+from azureml.core.datastore import Datastore
+
 import os
 import sys
 import argparse
