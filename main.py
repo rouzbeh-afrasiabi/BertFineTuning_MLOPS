@@ -111,4 +111,9 @@ if __name__ == '__main__':
     if(not exists):
         zip_file = zipfile.ZipFile("train.csv.zip", 'r')
         zip_file.extractall(cwd)
-        zip_file.close()    
+        zip_file.close() 
+    else:
+        def_blob_store.upload_files(
+                                    ["train.csv"],
+                                    target_path="data/original",
+                                    overwrite=True)
