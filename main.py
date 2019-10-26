@@ -45,5 +45,5 @@ def get_ws(args):
 if __name__ == '__main__':
     global run
     run = Run.get_context()
-    get_args()
-    main()
+    _params=get_args()
+    get_ws(_params)
