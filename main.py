@@ -109,6 +109,6 @@ if __name__ == '__main__':
     
     exists,_=check_file("train.csv",cwd)
     if(not exists):
-        zip_file = zipfile.ZipFile("train.csv.zip" 'r')
+        zip_file = zipfile.ZipFile("train.csv.zip", 'r')
         zip_file.extractall(cwd)
         zip_file.close()    
