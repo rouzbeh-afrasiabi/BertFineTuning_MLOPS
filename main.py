@@ -81,4 +81,7 @@ if __name__ == '__main__':
     def_blob_store = Datastore(ws, datastore_names[1])
 
     web_path ='https://github.com/rouzbeh-afrasiabi/PublicDatasets/raw/master/train.csv.zip'
-    Dataset.File.from_files(path=web_path)
+    train_zip=Dataset.File.from_files(path=web_path)
+    train_zip.register(workspace = ws,
+                                 name = 'train_zip_qqp',
+                                 description = 'Quora Question Pairs')
