@@ -48,3 +48,9 @@ if __name__ == '__main__':
     run = Run.get_context()
     _params=get_args()
     ws=get_ws(_params)
+    
+    datastore_names=list(ws.datastores.keys())
+    def_data_store = ws.get_default_datastore()
+    def_blob_store = Datastore(ws, datastore_names[1])
+    
+    
