@@ -107,12 +107,14 @@ if __name__ == '__main__':
     toDownload=[dataset]
     download_files(toDownload,cwd)
     
-    exists,_=check_file("train.csv",cwd)
-    if(not exists):
+    exists,_=check_file("train.csv.zip",cwd)
+    if(exists):
         zip_file = zipfile.ZipFile("train.csv.zip", 'r')
         zip_file.extractall(cwd)
         zip_file.close() 
-    else:
+        
+    exists,_=check_file("train.csv",cwd)
+    if(exists):        
         def_blob_store.upload_files(
                                     ["train.csv"],
                                     target_path="data/original",
