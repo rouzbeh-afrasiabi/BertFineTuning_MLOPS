@@ -1,1 +1,1 @@
-numpy==1.17.2
+azureml-sdk==1.0.69
