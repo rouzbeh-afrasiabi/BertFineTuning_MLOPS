@@ -103,16 +103,16 @@ if __name__ == '__main__':
     def_data_store = ws.get_default_datastore()
     def_blob_store = Datastore(ws, "workspaceblobstore")
 
-#     dataset={'dataset':"https://github.com/rouzbeh-afrasiabi/PublicDatasets/raw/master/train.csv.zip"}
-#     toDownload=[dataset]
-#     download_files(toDownload,cwd)
+    dataset={'dataset':"https://github.com/rouzbeh-afrasiabi/PublicDatasets/raw/master/train.csv.zip"}
+    toDownload=[dataset]
+    download_files(toDownload,cwd)
     
-#     zip_file = zipfile.ZipFile("train.csv.zip", 'r')
-#     zip_file.extractall(cwd)
-#     zip_file.close() 
-#     exists,_=check_file("train.csv","")
-#     print('train file is available:',exists)
-#     def_blob_store.upload_files(
-#                                 ["./train.csv"],
-#                                 target_path="data",
-#                                 overwrite=True)
+    zip_file = zipfile.ZipFile("train.csv.zip", 'r')
+    zip_file.extractall(cwd)
+    zip_file.close() 
+    exists,_=check_file("train.csv","")
+    print('train file is available:',exists)
+    def_blob_store.upload_files(
+                                ["./train.csv"],
+                                target_path="data",
+                                overwrite=True)
