@@ -114,5 +114,5 @@ if __name__ == '__main__':
     print('train file is available:',exists)
     def_blob_store.upload_files(
                                 ["./train.csv"],
-                                target_path="data",
+                                target_path="data/original/",
                                 overwrite=True)
