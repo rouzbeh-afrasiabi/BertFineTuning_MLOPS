@@ -104,6 +104,7 @@ if __name__ == '__main__':
     def_blob_store = Datastore(ws, datastore_names[1])
 
     dataset={'dataset':"https://github.com/rouzbeh-afrasiabi/PublicDatasets/raw/master/train.csv.zip"}
+    toDownload=[dataset]
     download_files(toDownload,cwd)
     
     exists,_=check_file("train.csv",cwd)
