@@ -52,5 +52,8 @@ if __name__ == '__main__':
     datastore_names=list(ws.datastores.keys())
     def_data_store = ws.get_default_datastore()
     def_blob_store = Datastore(ws, datastore_names[1])
-    
+    def_blob_store.upload_files(
+                                ["https://github.com/rouzbeh-afrasiabi/PublicDatasets/raw/master/train.csv.zip"],
+                                target_path="data",
+                                overwrite=True)
     
