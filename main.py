@@ -12,6 +12,7 @@ def get_args():
   parser.add_argument("--resource_group",  type=str, dest="resource_group")
   parser.add_argument("--workspace_name",  type=str, dest="workspace_name")
   parser.add_argument("--workspace_region",  type=str, dest="workspace_region")
+  parser.add_argument("--object_id",  type=str, dest="object_id") 
 
   args = parser.parse_args()
 
