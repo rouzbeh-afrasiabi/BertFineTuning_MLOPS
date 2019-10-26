@@ -2,6 +2,7 @@ from azureml.core import Run
 from azureml.core import Workspace
 from azureml.core.authentication import ServicePrincipalAuthentication
 from azureml.core.datastore import Datastore
+from azureml.core.dataset import Dataset
 
 import os
 import sys
