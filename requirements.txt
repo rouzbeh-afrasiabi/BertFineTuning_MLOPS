@@ -1,2 +1,3 @@
 azureml-sdk==1.0.69
+download==0.3.4
 
