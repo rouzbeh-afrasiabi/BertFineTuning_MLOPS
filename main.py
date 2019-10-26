@@ -78,12 +78,5 @@ if __name__ == '__main__':
     datastore_names=list(ws.datastores.keys())
     def_data_store = ws.get_default_datastore()
     def_blob_store = Datastore(ws, datastore_names[1])
-    
-    
-    data_folder=os.path.join(cwd,'data')
-    download_folder=os.path.join(cwd,'download')
-    processed_data_folder=os.path.join(cwd,'data','processed')
-    original_data_folder=os.path.join(cwd,'data','original')
-    cleaned_data_folder=os.path.join(cwd,'data','cleaned')
-    create_folders([data_folder,download_folder,processed_data_folder,cleaned_data_folder])
+
     
