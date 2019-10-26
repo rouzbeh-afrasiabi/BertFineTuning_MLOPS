@@ -1,7 +1,26 @@
 from azureml.core import Run
 from azureml.core import Workspace
-import argparse
 from azureml.core.authentication import ServicePrincipalAuthentication
+import os
+import sys
+import argparse
+
+
+def check_file(filename,location=cwd):    
+    
+    return os.path.exists(os.path.join(location,filename)),os.path.join(location,filename)
+
+def check_folder(foldername,location=cwd):    
+    
+    return os.path.exists(os.path.join(location,foldername))
+
+
+def create_folders(folders):
+    for folder in folders:
+        if(check_folder(folder)):
+            pass
+        else:
+            os.mkdir(folder)
 
 def get_args():
 
@@ -52,8 +71,15 @@ if __name__ == '__main__':
     datastore_names=list(ws.datastores.keys())
     def_data_store = ws.get_default_datastore()
     def_blob_store = Datastore(ws, datastore_names[1])
-    def_blob_store.upload_files(
-                                ["https://github.com/rouzbeh-afrasiabi/PublicDatasets/raw/master/train.csv.zip"],
-                                target_path="data",
-                                overwrite=True)
+    
+    cwd = str(os.getcwd())
+    sys.path.append(cwd)
+    sys.path.insert(0, cwd)
+    
+    data_folder=os.path.join(cwd,'data')
+    download_folder=os.path.join(cwd,'download')
+    processed_data_folder=os.path.join(cwd,'data','processed')
+    original_data_folder=os.path.join(cwd,'data','original')
+    cleaned_data_folder=os.path.join(cwd,'data','cleaned')
+    create_folders([data_folder,download_folder,processed_data_folder,cleaned_data_folder])
     
