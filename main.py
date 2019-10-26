@@ -41,6 +41,7 @@ def get_ws(args):
               subscription_id=subscription_id,
               resource_group=resource_group,
               auth=service_principal)
+  return(ws)
         
 if __name__ == '__main__':
     global run
