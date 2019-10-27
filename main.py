@@ -147,8 +147,10 @@ if __name__ == '__main__':
     processed_data_ref = PipelineData("processed_data_ref", datastore=def_blob_store)
     
     process_step = PythonScriptStep(script_name="process.py",
-                                   arguments=["--input_data_ref", input_data_ref],
-                                   inputs=[input_data_ref],
+                                   arguments=["--input_data_ref", input_data_ref,
+                                             "--processed_data_ref",processed_data_ref
+                                             ],
+                                   inputs=[input_data_ref,processed_data_ref],
                                     outputs=[processed_data_ref],
                                    compute_target=compute_target_cpu,
                                    source_directory='./')
