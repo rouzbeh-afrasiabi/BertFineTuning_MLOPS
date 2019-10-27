@@ -9,14 +9,26 @@ import requests
 import shutil
 import re
 from collections import OrderedDict
+import warnings
 
 from azureml.core import Run
-# from sklearn.utils.class_weight import compute_class_weight
-# import spacy
-# import warnings
-# from download import download
-# import numpy as np
-# import pandas as pd
+
+pip_packages=[
+              "azureml-sdk==1.0.17", "scikit-learn==0.21.3",
+              "download==0.3.4", "pandas==0.25.1",
+              "spacy==2.1.4", "numpy==1.17.2"
+              ]
+
+for item in pip_packages:
+  _command="pip install "+item
+  os.system(_command")
+
+    
+from sklearn.utils.class_weight import compute_class_weight
+import spacy
+from download import download
+import numpy as np
+import pandas as pd
 
 
 def get_args():
