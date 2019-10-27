@@ -153,6 +153,7 @@ if __name__ == '__main__':
                                    arguments=[
                                          "--processed_data_ref",processed_data_ref,
                                          "--param1", pipeline_param,
+                                             ]
                                    inputs=[],
                                     outputs=[processed_data_ref],
                                    compute_target=compute_target_cpu,
