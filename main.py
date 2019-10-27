@@ -108,22 +108,21 @@ if __name__ == '__main__':
     toDownload=[dataset]
     download_files(toDownload,cwd)
     
-    input_data_ref = DataReference(
-                            datastore=def_blob_store,   
-                            data_reference_name="input_data_ref",
-                            path_on_datastore="data/original/")
-    
     zip_file = zipfile.ZipFile("train.csv.zip", 'r')
-    zip_file.extractall(input_data_ref)
+    zip_file.extractall(cwd)
     zip_file.close() 
     exists,_=check_file("train.csv","")
+    print('train file is available:',exists)
     
-#     def_blob_store.upload_files(
-#                                 ["./train.csv"],
-#                                 target_path="data/original/",
-#                                 overwrite=True)
+    def_blob_store.upload_files(
+                                ["./train.csv"],
+                                target_path="data/original/",
+                                overwrite=True)
     
-
+    input_data_ref = DataReference(
+                                datastore=def_blob_store,   
+                                data_reference_name="input_data_ref",
+                                path_on_datastore="data/original/train.csv")
     
 # processed_data_ref = PipelineData("processed_data_ref", datastore=def_blob_store)
 # process_step = PythonScriptStep(script_name="process.py",
