@@ -50,6 +50,6 @@ if __name__ == '__main__':
     run = Run.get_context()
     _params=get_args()
     processed_data_ref=_params.processed_data_ref
-    ws=processed_data_ref.datastore.workspace
-    def_data_store = ws.get_default_datastore()
-    def_blob_store = Datastore(ws, "workspaceblobstore")
+#     ws=processed_data_ref.datastore.workspace
+#     def_data_store = ws.get_default_datastore()
+#     def_blob_store = Datastore(ws, "workspaceblobstore")
