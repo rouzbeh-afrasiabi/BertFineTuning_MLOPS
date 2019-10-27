@@ -51,4 +51,4 @@ if __name__ == '__main__':
     run = Run.get_context()
     _params=get_args()
     processed_data_ref=_params.processed_data_ref
-    ws = Workspace.from_config()
+    print(pipeline_param)
