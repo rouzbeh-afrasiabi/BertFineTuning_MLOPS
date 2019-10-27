@@ -106,8 +106,8 @@ def get_ws(args):
 if __name__ == '__main__':
     global run
     run = Run.get_context()
-    _params=get_args()
-    ws=get_ws(_params)
+    auth_params=get_args()
+    ws=get_ws(auth_params)
     
     datastore_names=list(ws.datastores.keys())
     def_data_store = ws.get_default_datastore()
@@ -149,6 +149,7 @@ if __name__ == '__main__':
     process_step = PythonScriptStep(script_name="process.py",
                                    arguments=[
                                              "--processed_data_ref",processed_data_ref,
+                                             "--auth_params",auth_params,
                                              ],
                                    inputs=[],
                                     outputs=[processed_data_ref],
