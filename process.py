@@ -1,4 +1,5 @@
 
+import importlib
 import os
 import sys
 import math
@@ -20,8 +21,11 @@ pip_packages=[
               ]
 
 for item in pip_packages:
-  _command="pip install "+item
-  os.system(_command)
+  try:
+    importlib.import_module(item.split("=")[0])
+  except:
+    _command="pip install "+item
+    os.system(_command)
 
     
 from sklearn.utils.class_weight import compute_class_weight
