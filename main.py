@@ -148,9 +148,10 @@ if __name__ == '__main__':
     
     process_step = PythonScriptStep(script_name="process.py",
                                    arguments=[
-                                             "--processed_data_ref",processed_data_ref
+                                             "--processed_data_ref",processed_data_ref,
+                                             "def_blob_store",def_blob_store,
                                              ],
-                                   inputs=[],
+                                   inputs=[def_blob_store],
                                     outputs=[processed_data_ref],
                                    compute_target=compute_target_cpu,
                                    source_directory='./')
