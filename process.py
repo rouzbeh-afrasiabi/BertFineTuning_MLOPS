@@ -38,7 +38,7 @@ import pandas as pd
 def get_args():
 
   parser = argparse.ArgumentParser()
-  parser.add_argument("--input_data_ref",  type=str, dest="input_data_ref")
+  parser.add_argument("--ws",  type=str, dest="ws")
   parser.add_argument("--processed_data_ref",  type=str, dest="processed_data_ref")
   args = parser.parse_args()
 
