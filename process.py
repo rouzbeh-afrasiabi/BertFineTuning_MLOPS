@@ -39,7 +39,8 @@ def get_args():
 
   parser = argparse.ArgumentParser()
   parser.add_argument("--processed_data_ref",  type=str, dest="processed_data_ref")
-  
+  parser.add_argument("--auth_params",  type=str, dest="auth_params")
+ 
   args = parser.parse_args()
 
   return(args)
@@ -50,6 +51,4 @@ if __name__ == '__main__':
     run = Run.get_context()
     _params=get_args()
     processed_data_ref=_params.processed_data_ref
-#     ws=processed_data_ref.datastore.workspace
-#     def_data_store = ws.get_default_datastore()
-#     def_blob_store = Datastore(ws, "workspaceblobstore")
+    print(_params.auth_params)
