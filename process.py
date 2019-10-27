@@ -49,5 +49,5 @@ if __name__ == '__main__':
     global run
     run = Run.get_context()
     _params=get_args()
-    input_data_ref=_params.input_data_ref
+    ws=_params.ws
     processed_data_ref=_params.processed_data_ref
