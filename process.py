@@ -38,7 +38,6 @@ import pandas as pd
 def get_args():
 
   parser = argparse.ArgumentParser()
-  parser.add_argument("--ws",  type=str, dest="ws")
   parser.add_argument("--processed_data_ref",  type=str, dest="processed_data_ref")
   args = parser.parse_args()
 
@@ -49,5 +48,4 @@ if __name__ == '__main__':
     global run
     run = Run.get_context()
     _params=get_args()
-    ws=_params.ws
     processed_data_ref=_params.processed_data_ref
