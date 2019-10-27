@@ -149,7 +149,7 @@ if __name__ == '__main__':
     process_step = PythonScriptStep(script_name="process.py",
                                    arguments=[
                                              "--processed_data_ref",processed_data_ref,
-                                             "--auth_params",auth_params,
+                                             "--auth_params",vars(auth_params),
                                              ],
                                    inputs=[],
                                     outputs=[processed_data_ref],
