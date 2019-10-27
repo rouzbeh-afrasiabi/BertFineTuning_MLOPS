@@ -139,11 +139,15 @@ if __name__ == '__main__':
         compute_target_cpu.wait_for_completion(show_output=True)
     
     
+    input_data_ref = DataReference(
+                            datastore=def_blob_store,   
+                            data_reference_name="input_data_ref",
+                            path_on_datastore="data/original/train.csv")
     
     processed_data_ref = PipelineData("processed_data_ref", datastore=def_blob_store)
     
     process_step = PythonScriptStep(script_name="process.py",
-                                   arguments=["--def_blob_store", def_blob_store],
+                                   arguments=["--input_data_ref", input_data_ref],
                                    outputs=[],
                                    compute_target=compute_target_cpu,
                                    source_directory='./')
