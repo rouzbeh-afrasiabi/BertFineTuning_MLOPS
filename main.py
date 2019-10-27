@@ -121,6 +121,6 @@ if __name__ == '__main__':
     
     input_data_ref = DataReference(
                                 datastore=def_blob_store,   
-                                data_reference_name="input_data",
+                                data_reference_name="input_data_ref",
                                 path_on_datastore="data/original/train.csv")
     
