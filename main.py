@@ -159,7 +159,9 @@ if __name__ == '__main__':
                                           "--workspace_region" , auth_params.workspace_region,
                                           "--object_id" , auth_params.object_id,
                                              ],
-                                   inputs=[],
+                                   inputs=[tenant_id,application_id,app_secret,
+                                          subscription_id,resource_group,workspace_name,
+                                          workspace_region,object_id],
                                     outputs=[processed_data_ref],
                                    compute_target=compute_target_cpu,
                                    source_directory='./')
