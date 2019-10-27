@@ -150,13 +150,19 @@ if __name__ == '__main__':
     process_step = PythonScriptStep(script_name="process.py",
                                    arguments=[
                                              "--processed_data_ref",processed_data_ref,
+                                         "--tenant_id ", auth_params.tenant_id
+                                          "--application_id" , auth_params.application_id
+                                          "--app_secret ", auth_params.app_secret
+                                          "--subscription_id" , auth_params.subscription_id
+                                          "--resource_group" , auth_params.resource_group
+                                          "--workspace_name" , auth_params.workspace_name
+                                          "--workspace_region" , auth_params.workspace_region
+                                          "--object_id" , auth_params.object_id
                                              ],
                                    inputs=[],
                                     outputs=[processed_data_ref],
                                    compute_target=compute_target_cpu,
                                    source_directory='./')
-
-   
 
     run_config = RunConfiguration()
     run_config.environment.docker.enabled = True
