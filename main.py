@@ -150,8 +150,9 @@ if __name__ == '__main__':
     
     pipeline_params=[]    
     for k,v in vars(auth_params).items():
-     pipeline_params.append("--"+k)
-     pipeline_params.append(PipelineParameter(name="k",default_value=v))
+     print(k)
+#      pipeline_params.append("--"+k)
+#      pipeline_params.append(PipelineParameter(name="k",default_value=v))
      
     pipeline_params+=["--processed_data_ref",processed_data_ref]
     process_step = PythonScriptStep(script_name="process.py",
