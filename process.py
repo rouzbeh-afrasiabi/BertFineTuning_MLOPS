@@ -51,4 +51,3 @@ if __name__ == '__main__':
     _params=get_args()
     input_data_ref=_params.input_data_ref
     processed_data_ref=_params.processed_data_ref
-    print(processed_data_ref)
