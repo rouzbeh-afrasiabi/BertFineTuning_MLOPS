@@ -149,6 +149,7 @@ if __name__ == '__main__':
     process_step = PythonScriptStep(script_name="process.py",
                                    arguments=["--input_data_ref", input_data_ref],
                                    inputs=[input_data_ref],
+                                    outputs=[processed_data_ref],
                                    compute_target=compute_target_cpu,
                                    source_directory='./')
 
