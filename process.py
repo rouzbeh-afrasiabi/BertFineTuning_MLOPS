@@ -39,6 +39,7 @@ def get_args():
 
   parser = argparse.ArgumentParser()
   parser.add_argument("--input_data_ref",  type=str, dest="input_data_ref")
+  parser.add_argument("--processed_data_ref",  type=str, dest="processed_data_ref")
   args = parser.parse_args()
 
   return(args)
@@ -49,3 +50,5 @@ if __name__ == '__main__':
     run = Run.get_context()
     _params=get_args()
     input_data_ref=_params.input_data_ref
+    processed_data_ref=_params.processed_data_ref
+    print(processed_data_ref)
