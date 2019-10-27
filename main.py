@@ -147,13 +147,15 @@ if __name__ == '__main__':
                             path_on_datastore="data/original/train.csv")
     
     processed_data_ref = PipelineData("processed_data_ref", datastore=def_blob_store)
-        
-    pipeline_param = PipelineParameter(name="pipeline_arg",default_value=10)
+    
+    pipeline_params=[]    
+    for k,v in auth_params.items():
+     pipeline_params.append("--"+k)
+     pipeline_params.append(PipelineParameter(name="k",default_value=v))
+     
+    pipeline_params+=["--processed_data_ref",processed_data_ref]
     process_step = PythonScriptStep(script_name="process.py",
-                                   arguments=[
-                                         "--processed_data_ref",processed_data_ref,
-                                         "--param1", pipeline_param,
-                                             ],
+                                   arguments=pipeline_params,
                                    inputs=[],
                                     outputs=[processed_data_ref],
                                    compute_target=compute_target_cpu,
