@@ -39,7 +39,7 @@ def get_args():
 
   parser = argparse.ArgumentParser()
   parser.add_argument("--processed_data_ref",  type=str, dest="processed_data_ref")
-  parser.add_argument("--tenant_id",  type=str, dest="tenant_id")
+#   parser.add_argument("--tenant_id",  type=str, dest="tenant_id")
 #   parser.add_argument("--application_id",  type=str, dest="application_id")
 #   parser.add_argument("--app_secret",  type=str, dest="app_secret")
 #   parser.add_argument("--subscription_id",  type=str, dest="subscription_id")
