@@ -140,7 +140,7 @@ if __name__ == '__main__':
         compute_target_cpu = ComputeTarget.create(ws, cluster_name, compute_config)
         compute_target_cpu.wait_for_completion(show_output=True)
     
-    
+
     input_data_ref = DataReference(
                             datastore=def_blob_store,   
                             data_reference_name="input_data_ref",
@@ -148,10 +148,11 @@ if __name__ == '__main__':
     
     processed_data_ref = PipelineData("processed_data_ref", datastore=def_blob_store)
         
-    
+    pipeline_param = PipelineParameter(name="pipeline_arg",default_value=10)
     process_step = PythonScriptStep(script_name="process.py",
                                    arguments=[
                                          "--processed_data_ref",processed_data_ref,
+                                         "--param1", pipeline_param,
                                    inputs=[],
                                     outputs=[processed_data_ref],
                                    compute_target=compute_target_cpu,
