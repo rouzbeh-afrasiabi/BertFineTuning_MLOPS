@@ -39,6 +39,7 @@ def get_args():
 
   parser = argparse.ArgumentParser()
   parser.add_argument("--processed_data_ref",  type=str, dest="processed_data_ref")
+  parser.add_argument("--param1",  type=str, dest="pipeline_param")
   args = parser.parse_args()
 
   return(args)
