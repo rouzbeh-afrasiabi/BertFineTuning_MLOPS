@@ -8,7 +8,12 @@ from azureml.pipeline.core import Pipeline, PipelineData
 from azureml.core.compute import ComputeTarget, AmlCompute
 from azureml.core.compute_target import ComputeTargetException
 from azureml.pipeline.steps import PythonScriptStep
-
+from azureml.core.runconfig import RunConfiguration
+from azureml.core.conda_dependencies import CondaDependencies
+from azureml.core.runconfig import DEFAULT_CPU_IMAGE
+from azureml.core import Experiment
+    
+ 
 import os
 import sys
 import requests
@@ -142,3 +147,15 @@ if __name__ == '__main__':
                                    outputs=[],
                                    compute_target=compute_target_cpu,
                                    source_directory='./')
+
+   
+
+    run_config = RunConfiguration()
+    run_config.environment.docker.enabled = True
+    run_config.environment.docker.base_image = DEFAULT_CPU_IMAGE
+    run_config.environment.python.user_managed_dependencies = False
+    run_config.environment.python.conda_dependencies = CondaDependencies.create(pip_packages=['azureml-sdk'])
+    
+    pipeline = Pipeline(workspace=ws, steps=[process_step])
+    pipeline_run_first = Experiment(ws, 'test_exp').submit(pipeline)
+    pipeline_run_first.wait_for_completion()
