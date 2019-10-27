@@ -39,14 +39,8 @@ def get_args():
 
   parser = argparse.ArgumentParser()
   parser.add_argument("--processed_data_ref",  type=str, dest="processed_data_ref")
-#   parser.add_argument("--tenant_id",  type=str, dest="tenant_id")
-#   parser.add_argument("--application_id",  type=str, dest="application_id")
-#   parser.add_argument("--app_secret",  type=str, dest="app_secret")
-#   parser.add_argument("--subscription_id",  type=str, dest="subscription_id")
-#   parser.add_argument("--resource_group",  type=str, dest="resource_group")
-#   parser.add_argument("--workspace_name",  type=str, dest="workspace_name")
-#   parser.add_argument("--workspace_region",  type=str, dest="workspace_region")
-#   parser.add_argument("--object_id",  type=str, dest="object_id") 
+  parser.add_argument("--auth_params",  type=str, dest="auth_params")
+  
   args = parser.parse_args()
 
   return(args)
