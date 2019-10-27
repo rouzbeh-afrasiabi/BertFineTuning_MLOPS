@@ -13,6 +13,7 @@ from collections import OrderedDict
 import warnings
 
 from azureml.core import Run
+from azureml.core import Workspace, Datastore
 
 pip_packages=[
               "azureml-sdk==1.0.17", "scikit-learn==0.21.3",
@@ -50,3 +51,4 @@ if __name__ == '__main__':
     run = Run.get_context()
     _params=get_args()
     processed_data_ref=_params.processed_data_ref
+    ws = Workspace.from_config()
