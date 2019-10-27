@@ -149,7 +149,7 @@ if __name__ == '__main__':
     processed_data_ref = PipelineData("processed_data_ref", datastore=def_blob_store)
     
     pipeline_params=[]    
-    for k,v in auth_params.items():
+    for k,v in vars(auth_params).items():
      pipeline_params.append("--"+k)
      pipeline_params.append(PipelineParameter(name="k",default_value=v))
      
