@@ -39,6 +39,8 @@ def get_args():
 
   parser = argparse.ArgumentParser()
   parser.add_argument("--processed_data_ref",  type=str, dest="processed_data_ref")
+  parser.add_argument("--def_blob_store",  type=str, dest="def_blob_store")
+  
   args = parser.parse_args()
 
   return(args)
