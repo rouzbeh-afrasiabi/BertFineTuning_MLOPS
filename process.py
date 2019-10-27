@@ -21,7 +21,7 @@ pip_packages=[
 
 for item in pip_packages:
   _command="pip install "+item
-  os.system(_command")
+  os.system(_command)
 
     
 from sklearn.utils.class_weight import compute_class_weight
