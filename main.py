@@ -7,6 +7,7 @@ from azureml.data.data_reference import DataReference
 from azureml.pipeline.core import Pipeline, PipelineData
 from azureml.core.compute import ComputeTarget, AmlCompute
 from azureml.core.compute_target import ComputeTargetException
+from azureml.pipeline.steps import PythonScriptStep
 
 import os
 import sys
