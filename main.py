@@ -122,7 +122,7 @@ if __name__ == '__main__':
     toDownload=[dataset]
     download_files(toDownload,data_temp_folder)
     
-    zip_file = zipfile.ZipFile("train.csv.zip", 'r')
+    zip_file = zipfile.ZipFile(os.path.join(data_temp_folder,"train.csv.zip"), 'r')
     zip_file.extractall(data_temp_folder)
     zip_file.close() 
      
