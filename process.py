@@ -38,6 +38,9 @@ from download import download
 import numpy as np
 import pandas as pd
 
+cwd = str(os.getcwd())
+sys.path.append(cwd)
+sys.path.insert(0, cwd)
 
 def get_args():
 
@@ -89,4 +92,4 @@ if __name__ == '__main__':
     datastore_names=list(ws.datastores.keys())
     def_data_store = ws.get_default_datastore()
     def_blob_store = Datastore(ws, "workspaceblobstore")
-    print(datastore_names)
+    print(os.listdir(cwd))
