@@ -128,6 +128,8 @@ if __name__ == '__main__':
                                 target_path="data/original/",
                                 overwrite=True)
     
+    cluster_name = "cpucluster"
+    
     try:
         compute_target_cpu = ComputeTarget(workspace=ws, name=cluster_name)
     except ComputeTargetException:
