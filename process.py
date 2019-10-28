@@ -87,7 +87,7 @@ if __name__ == '__main__':
     global run
     run = Run.get_context()
     _params=get_args()
-    processed_data_ref=_params.processed_data_ref
+#     processed_data_ref=_params.processed_data_ref
     ws=get_ws(_params)
     
     datastore_names=list(ws.datastores.keys())
