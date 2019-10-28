@@ -45,8 +45,8 @@ sys.path.insert(0, cwd)
 def get_args():
 
   parser = argparse.ArgumentParser()
-  parser.add_argument("--processed_data_ref",  type=str, dest="processed_data_ref")
-  parser.add_argument("--input_data_ref",  type=str, dest="input_data_ref")
+#   parser.add_argument("--processed_data_ref",  type=str, dest="processed_data_ref")
+#   parser.add_argument("--input_data_ref",  type=str, dest="input_data_ref")
   parser.add_argument("--tenant_id",  type=str, dest="tenant_id")
   parser.add_argument("--application_id",  type=str, dest="application_id")
   parser.add_argument("--app_secret",  type=str, dest="app_secret")
@@ -88,12 +88,9 @@ if __name__ == '__main__':
     run = Run.get_context()
     _params=get_args()
     processed_data_ref=_params.processed_data_ref
-#     ws=get_ws(_params)
+    ws=get_ws(_params)
     
-#     datastore_names=list(ws.datastores.keys())
-#     def_data_store = ws.get_default_datastore()
-#     def_blob_store = Datastore(ws, "workspaceblobstore")
-    print('test output')
-    print("Here are the files:\n",os.listdir(cwd))
-    df=pd.read_csv(_params.input_data_ref)
-    print(df.head(3))
+    datastore_names=list(ws.datastores.keys())
+    def_data_store = ws.get_default_datastore()
+    def_blob_store = Datastore(ws, "workspaceblobstore")
+
