@@ -114,17 +114,20 @@ if __name__ == '__main__':
     datastore_names=list(ws.datastores.keys())
     def_data_store = ws.get_default_datastore()
     def_blob_store = Datastore(ws, "workspaceblobstore")
-
+    
+    data_temp_folder=os.path.join(cwd,"data_temp")
+    create_folders([data_temp_folder])
+    
     dataset={'dataset':"https://github.com/rouzbeh-afrasiabi/PublicDatasets/raw/master/train.csv.zip"}
     toDownload=[dataset]
-    download_files(toDownload,cwd)
+    download_files(toDownload,data_temp_folder)
     
     zip_file = zipfile.ZipFile("train.csv.zip", 'r')
-    zip_file.extractall(cwd)
+    zip_file.extractall(data_temp_folder)
     zip_file.close() 
      
     def_blob_store.upload_files(
-                                ["./train.csv"],
+                                ["data_temp_folder/train.csv"],
                                 target_path="data/original/",
                                 overwrite=True)
     
