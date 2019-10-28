@@ -14,6 +14,9 @@ import warnings
 
 from azureml.core import Run
 from azureml.core import Workspace, Datastore
+from azureml.core.authentication import ServicePrincipalAuthentication
+from azureml.core.datastore import Datastore
+
 
 pip_packages=[
               "azureml-sdk==1.0.17", "scikit-learn==0.21.3",
@@ -51,6 +54,29 @@ def get_args():
   args = parser.parse_args()
 
   return(args)
+
+def get_ws(args):
+  
+  tenant_id = args.tenant_id
+  application_id = args.application_id
+  app_secret = args.app_secret
+  subscription_id = args.subscription_id
+  resource_group = args.resource_group
+  workspace_name = args.workspace_name
+  workspace_region = args.workspace_region
+  object_id = args.object_id
+  
+  service_principal = ServicePrincipalAuthentication(
+          tenant_id=tenant_id,
+          service_principal_id=application_id,
+          service_principal_password=app_secret)
+
+  ws = Workspace.get(
+              name=workspace_name,
+              subscription_id=subscription_id,
+              resource_group=resource_group,
+              auth=service_principal)
+  return(ws)
     
 
 if __name__ == '__main__':
@@ -58,3 +84,4 @@ if __name__ == '__main__':
     run = Run.get_context()
     _params=get_args()
     processed_data_ref=_params.processed_data_ref
+    ws=get_ws(_params)
