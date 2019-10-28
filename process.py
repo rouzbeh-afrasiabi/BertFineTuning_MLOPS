@@ -96,4 +96,4 @@ if __name__ == '__main__':
 #     blob_container_name=def_blob_store.container_name
 #     blob_gen=container_name.blob_service.list_blobs(blob_container_name)
 #     print([item.name for item in blob_list])
-    print(os.listdir('/mnt/workspaceblobstore'))
+    print(os.listdir('~workspaceblobstore'))
