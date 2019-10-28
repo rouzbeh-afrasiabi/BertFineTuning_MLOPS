@@ -143,10 +143,10 @@ if __name__ == '__main__':
         compute_target_cpu.wait_for_completion(show_output=True)
     
 
-#     input_data_ref = DataReference(
-#                             datastore=def_blob_store,   
-#                             data_reference_name="input_data_ref",
-#                             path_on_datastore="data/original/train.csv")
+    input_data_ref = DataReference(
+                            datastore=def_blob_store,   
+                            data_reference_name="input_data_ref",
+                            path_on_datastore="data/original/train.csv")
     
     processed_data_ref = PipelineData("processed_data_ref", datastore=def_blob_store)
     
