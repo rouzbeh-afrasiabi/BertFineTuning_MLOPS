@@ -87,9 +87,9 @@ if __name__ == '__main__':
     run = Run.get_context()
     _params=get_args()
     processed_data_ref=_params.processed_data_ref
-    ws=get_ws(_params)
+#     ws=get_ws(_params)
     
-    datastore_names=list(ws.datastores.keys())
-    def_data_store = ws.get_default_datastore()
-    def_blob_store = Datastore(ws, "workspaceblobstore")
+#     datastore_names=list(ws.datastores.keys())
+#     def_data_store = ws.get_default_datastore()
+#     def_blob_store = Datastore(ws, "workspaceblobstore")
     print(os.listdir(cwd))
