@@ -93,6 +93,5 @@ if __name__ == '__main__':
     def_data_store = ws.get_default_datastore()
     #Mount the datastore
     def_blob_store.path_on_compute='rouzbeh'
-    def_blob_store = Datastore(ws, "workspaceblobstore").as_mount()
-    
-    print(os.listdir('/mnt/rouzbeh/'))
+    def_blob_store = Datastore(ws, "workspaceblobstore")
+    def_blob_store.path('./data').as_mount()
