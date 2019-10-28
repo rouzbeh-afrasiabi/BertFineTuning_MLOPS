@@ -143,10 +143,10 @@ if __name__ == '__main__':
         compute_target_cpu.wait_for_completion(show_output=True)
     
 
-    input_data_ref = DataReference(
-                            datastore=def_blob_store,   
-                            data_reference_name="input_data_ref",
-                            path_on_datastore="data/original/train.csv")
+#     input_data_ref = DataReference(
+#                             datastore=def_blob_store,   
+#                             data_reference_name="input_data_ref",
+#                             path_on_datastore="data/original/train.csv")
     
     processed_data_ref = PipelineData("processed_data_ref", datastore=def_blob_store)
     
@@ -155,12 +155,11 @@ if __name__ == '__main__':
      pipeline_params.append("--"+k)
      pipeline_params.append(PipelineParameter(name=k,default_value=v))
      
-    pipeline_params+=["--processed_data_ref",processed_data_ref]
-    pipeline_params+=["--input_data_ref",input_data_ref]
+#     pipeline_params+=["--processed_data_ref",processed_data_ref]
     process_step = PythonScriptStep(script_name="process.py",
                                    arguments=pipeline_params,
-                                   inputs=[input_data_ref],
-                                    outputs=[processed_data_ref],
+                                   inputs=[],
+                                    outputs=[],
                                    compute_target=compute_target_cpu,
                                    source_directory='./')
 
