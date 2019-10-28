@@ -156,6 +156,7 @@ if __name__ == '__main__':
      pipeline_params.append(PipelineParameter(name=k,default_value=v))
      
     pipeline_params+=["--processed_data_ref",processed_data_ref]
+    pipeline_params+=["--input_data_ref",input_data_ref]
     process_step = PythonScriptStep(script_name="process.py",
                                    arguments=pipeline_params,
                                    inputs=[input_data_ref],
