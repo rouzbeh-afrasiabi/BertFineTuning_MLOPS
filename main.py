@@ -126,10 +126,12 @@ if __name__ == '__main__':
     zip_file.extractall(data_temp_folder)
     zip_file.close() 
      
-#     def_blob_store.upload_files(
-#                                 [os.path.join(data_temp_folder,"train.csv")],
-#                                 target_path="data/original/",
-#                                 overwrite=True)
+    def_blob_store.upload_files(
+                                [os.path.join(data_temp_folder,"train.csv")],
+                                target_path="data/original/",
+                                overwrite=True)
+    
+    os.remove(os.path.join(data_temp_folder,"train.csv"))
     
     cluster_name = "cpucluster"
     
