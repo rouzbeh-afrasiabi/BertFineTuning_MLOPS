@@ -93,4 +93,4 @@ if __name__ == '__main__':
     #Mount the datastore
     def_blob_store = Datastore(ws, "workspaceblobstore")
     def_blob_store.path('./data').as_mount()
-    print(os.listdir('./'))
+    print(os.listdir('/mnt/data/'))
