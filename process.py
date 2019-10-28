@@ -92,4 +92,5 @@ if __name__ == '__main__':
 #     datastore_names=list(ws.datastores.keys())
 #     def_data_store = ws.get_default_datastore()
 #     def_blob_store = Datastore(ws, "workspaceblobstore")
+    print('test output')
     print("Here are the files:\n",os.listdir(cwd))
