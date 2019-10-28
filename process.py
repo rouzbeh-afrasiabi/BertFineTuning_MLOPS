@@ -89,9 +89,3 @@ if __name__ == '__main__':
     _params=get_args()
     ws=get_ws(_params)
     
-    datastore_names=list(ws.datastores.keys())
-    #Mount the datastore
-    def_blob_store = Datastore(ws, "workspaceblobstore")
-    input_data = DataReference(datastore=def_blob_store,data_reference_name="input_data",path_on_datastore="data/original/train.csv")
-    input_data.as_download(path_on_compute="data/original/", overwrite=True)
-    print(os.listdir('./'))
