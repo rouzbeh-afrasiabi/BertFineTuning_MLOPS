@@ -172,5 +172,5 @@ if __name__ == '__main__':
     run_config.environment.python.conda_dependencies = CondaDependencies.create(pip_packages=pip_packages)
     
     pipeline = Pipeline(workspace=ws, steps=[process_step])
-    pipeline_run_first = Experiment(ws, 'test_exp').submit(pipeline)
+    pipeline_run_first = Experiment(ws, 'test_exp_1').submit(pipeline)
     pipeline_run_first.wait_for_completion()
