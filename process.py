@@ -88,4 +88,6 @@ if __name__ == '__main__':
     run = Run.get_context()
     _params=get_args()
     ws=get_ws(_params)
-    print(os.listdir("./"))
+    input_data_ref=_params.input_data_ref
+    df=pd.read_csv(input_data_ref)
+    print(df.head())
