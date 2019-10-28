@@ -127,7 +127,7 @@ if __name__ == '__main__':
     zip_file.close() 
      
     def_blob_store.upload_files(
-                                ["data_temp_folder/train.csv"],
+                                [os.path.join(data_temp_folder,"train.csv")],
                                 target_path="data/original/",
                                 overwrite=True)
     
