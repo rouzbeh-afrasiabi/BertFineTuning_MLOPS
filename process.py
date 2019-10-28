@@ -93,6 +93,7 @@ if __name__ == '__main__':
     def_data_store = ws.get_default_datastore()
     #Mount the datastore
     def_blob_store = Datastore(ws, "workspaceblobstore").as_mount()
-    df=pd.read_csv(os.path.join(def_blob_store,'data','original','train.csv'))
-    print(df.head())
+    blob_container_name=def_blob_store.container_name
+    blob_gen=container_name.blob_service.list_blobs(blob_container_name)
+    print([item.name for item in blob_list])
     
