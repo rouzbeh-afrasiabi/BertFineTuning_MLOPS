@@ -158,7 +158,7 @@ if __name__ == '__main__':
     pipeline_params+=["--processed_data_ref",processed_data_ref]
     process_step = PythonScriptStep(script_name="process.py",
                                    arguments=pipeline_params,
-                                   inputs=[],
+                                   inputs=[input_data_ref],
                                     outputs=[processed_data_ref],
                                    compute_target=compute_target_cpu,
                                    source_directory='./')
