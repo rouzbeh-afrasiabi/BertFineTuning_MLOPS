@@ -88,4 +88,4 @@ if __name__ == '__main__':
     run = Run.get_context()
     _params=get_args()
     ws=get_ws(_params)
-    
+    print(os.listdir("./"))
