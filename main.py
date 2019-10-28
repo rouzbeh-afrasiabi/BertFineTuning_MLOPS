@@ -122,13 +122,15 @@ if __name__ == '__main__':
     zip_file = zipfile.ZipFile("train.csv.zip", 'r')
     zip_file.extractall(cwd)
     zip_file.close() 
-    exists,_=check_file("train.csv","")
-    
+     
     def_blob_store.upload_files(
                                 ["./train.csv"],
                                 target_path="data/original/",
                                 overwrite=True)
-    
+    exists,_=check_file("train.csv","")
+    if(exists):
+     os.remove("train.csv")
+     
     cluster_name = "cpucluster"
     
     try:
