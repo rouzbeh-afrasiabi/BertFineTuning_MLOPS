@@ -93,4 +93,6 @@ if __name__ == '__main__':
     def_data_store = ws.get_default_datastore()
     #Mount the datastore
     def_blob_store = Datastore(ws, "workspaceblobstore").as_mount()
-    print(def_blob_store)
+    df=pd.read_csv(os.path.join(def_blob_store,'data','original','train.csv'))
+    print(df.head())
+    
