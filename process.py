@@ -94,3 +94,4 @@ if __name__ == '__main__':
     def_blob_store = Datastore(ws, "workspaceblobstore")
     input_data = DataReference(datastore=def_blob_store,data_reference_name="input_data",path_on_datastore="data/original/train.csv")
     input_data.as_mount()
+    print(os.listdir())
