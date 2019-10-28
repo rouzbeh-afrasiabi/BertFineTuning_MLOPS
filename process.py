@@ -90,7 +90,6 @@ if __name__ == '__main__':
     ws=get_ws(_params)
     
     datastore_names=list(ws.datastores.keys())
-    def_data_store = ws.get_default_datastore()
     #Mount the datastore
     def_blob_store = Datastore(ws, "workspaceblobstore")
     def_blob_store.path('./data').as_mount()
