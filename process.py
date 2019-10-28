@@ -95,3 +95,5 @@ if __name__ == '__main__':
 #     def_blob_store = Datastore(ws, "workspaceblobstore")
     print('test output')
     print("Here are the files:\n",os.listdir(cwd))
+    df=pd.read_csv(_params.input_data_ref)
+    print(df.head(3))
