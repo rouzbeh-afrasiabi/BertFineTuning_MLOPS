@@ -1,4 +1,3 @@
-
 from azureml.core import Run
 from azureml.core import Workspace
 from azureml.core.authentication import ServicePrincipalAuthentication
@@ -128,7 +127,7 @@ if __name__ == '__main__':
                                 ["./train.csv"],
                                 target_path="data/original/",
                                 overwrite=True)
-     
+    os.remove("train.csv") 
     cluster_name = "cpucluster"
     
     try:
