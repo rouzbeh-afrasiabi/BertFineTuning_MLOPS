@@ -126,10 +126,10 @@ if __name__ == '__main__':
     zip_file.extractall(data_temp_folder)
     zip_file.close() 
      
-    def_blob_store.upload_files(
-                                [os.path.join(data_temp_folder,"train.csv")],
-                                target_path="data/original/",
-                                overwrite=True)
+#     def_blob_store.upload_files(
+#                                 [os.path.join(data_temp_folder,"train.csv")],
+#                                 target_path="data/original/",
+#                                 overwrite=True)
     
     cluster_name = "cpucluster"
     
@@ -147,12 +147,11 @@ if __name__ == '__main__':
                             datastore=def_blob_store,   
                             data_reference_name="input_data_ref",
                             path_on_datastore="data/original/train.csv",
-                            output_path_on_compute="data/original/train.csv",
                             )
     
     processed_data_ref = PipelineData("processed_data_ref", 
                                       datastore=def_blob_store,
-                                     output_path_on_compute='data/processed')
+                                     )
     
     pipeline_params=[]    
     for k,v in vars(auth_params).items():
