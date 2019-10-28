@@ -148,7 +148,7 @@ if __name__ == '__main__':
 #                             data_reference_name="input_data_ref",
 #                             path_on_datastore="data/original/train.csv")
     
-    processed_data_ref = PipelineData("processed_data_ref", datastore=def_blob_store)
+#     processed_data_ref = PipelineData("processed_data_ref", datastore=def_blob_store)
     
     pipeline_params=[]    
     for k,v in vars(auth_params).items():
