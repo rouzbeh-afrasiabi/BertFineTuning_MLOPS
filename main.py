@@ -127,9 +127,6 @@ if __name__ == '__main__':
                                 ["./train.csv"],
                                 target_path="data/original/",
                                 overwrite=True)
-    exists,_=check_file("train.csv","")
-    if(exists):
-     os.remove("train.csv")
      
     cluster_name = "cpucluster"
     
