@@ -16,7 +16,7 @@ from azureml.core import Run
 from azureml.core import Workspace, Datastore
 from azureml.core.authentication import ServicePrincipalAuthentication
 from azureml.core.datastore import Datastore
-
+from azureml.data.data_reference import DataReference
 
 pip_packages=[
               "azureml-sdk==1.0.17", "scikit-learn==0.21.3",
