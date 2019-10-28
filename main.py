@@ -160,10 +160,11 @@ if __name__ == '__main__':
      pipeline_params.append(PipelineParameter(name=k,default_value=v))
      
     pipeline_params+=["--processed_data_ref",processed_data_ref]
+    pipeline_params+=["--input_data_ref",input_data_ref]
     process_step = PythonScriptStep(script_name="process.py",
                                    arguments=pipeline_params,
-                                   inputs=[],
-                                    outputs=[],
+                                   inputs=[input_data_ref],
+                                    outputs=[processed_data_ref],
                                    compute_target=compute_target_cpu,
                                    source_directory='./')
 
