@@ -94,5 +94,5 @@ if __name__ == '__main__':
     
     processed_data_ref=_params.processed_data_ref
     input_data_ref=_params.input_data_ref
-    pd.read_csv('{}/original/train.csv'.format(input_data_ref))
-    
+    df=pd.read_csv('{}/original/train.csv'.format(input_data_ref))
+    print(df.head(10))
