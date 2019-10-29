@@ -96,6 +96,5 @@ if __name__ == '__main__':
     processed_data_ref=_params.processed_data_ref
     input_data_ref=_params.input_data_ref
     df=pd.read_csv(input_data_ref)
-    test=df.head(2)
-    test.to_csv(processed_data_ref)
+
     
