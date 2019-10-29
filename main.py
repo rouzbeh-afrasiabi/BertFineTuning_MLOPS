@@ -148,7 +148,7 @@ if __name__ == '__main__':
     input_data_ref = DataReference(
                             datastore=def_blob_store,   
                             data_reference_name="input_data_ref",
-                            path_on_datastore="data/original/train.csv",
+                            path_on_datastore="data/",
                             )
     
     processed_data_ref = PipelineData("processed_data_ref", 
