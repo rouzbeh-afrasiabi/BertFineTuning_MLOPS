@@ -97,4 +97,4 @@ if __name__ == '__main__':
     input_data_ref=_params.input_data_ref
     df=pd.read_csv(input_data_ref)
 
-    
+    print('{}/data/'.format(processed_data_ref))
