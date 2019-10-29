@@ -95,5 +95,4 @@ if __name__ == '__main__':
     processed_data_ref=_params.processed_data_ref
     input_data_ref=_params.input_data_ref
     df=pd.read_csv(input_data_ref)
-    print('Rouzbeh')
-    df.head(5).to_csv(os.path.join(processed_data_ref,'rouzbeh.csv'))
+    df.head(5).to_csv('{}/rouzbeh.csv'.format(processed_data_ref))
