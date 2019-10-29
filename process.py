@@ -89,9 +89,8 @@ if __name__ == '__main__':
     _params=get_args()
     ws=get_ws(_params)
     
-    def_file_store = Datastore(ws, 'workspaceblobstore')
-    blob_container_name=def_blob_store.container_name
     def_blob_store = Datastore(ws, 'workspaceblobstore')
+    blob_container_name=def_blob_store.container_name
     
     processed_data_ref=_params.processed_data_ref
     input_data_ref=_params.input_data_ref
