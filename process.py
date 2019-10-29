@@ -88,6 +88,17 @@ if __name__ == '__main__':
     run = Run.get_context()
     _params=get_args()
     ws=get_ws(_params)
+    
+    def_file_store = Datastore(ws, 'workspaceblobstore')
+    blob_container_name=def_blob_store.container_name
+    def_blob_store = Datastore(ws, 'workspaceblobstore')
+    
     input_data_ref=_params.input_data_ref
     df=pd.read_csv(input_data_ref)
     print(df.head())
+    
+    print('Next')    
+    
+    
+    df=pd.read_csv('{}/data/original/train.csv'.format(def_blob_store))
+    print(df.head(20))
