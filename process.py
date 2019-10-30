@@ -28,7 +28,7 @@ for item in pip_packages:
   try:
     importlib.import_module(item.split("=")[0])
   except:
-    _command="pip install "+item
+    _command="pip install --upgrade "+item
     os.system(_command)
 
     
