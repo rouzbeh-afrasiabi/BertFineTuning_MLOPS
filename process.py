@@ -231,17 +231,18 @@ if __name__ == '__main__':
     
     def_blob_store = Datastore(ws, 'workspaceblobstore')
     blob_container_name=def_blob_store.container_name
-    
-    try:
-        import en_vectors_web_lg
-        nlp = en_vectors_web_lg.load()
-    except:
-        os.system("pip install "+ '{}/install/en_vectors_web_lg-2.1.0.tar.gz'.format(input_data_ref))
-        import en_vectors_web_lg
-        nlp = en_vectors_web_lg.load()     
+        
 
     
     if(not is_blob(def_blob_store,'/data/cleaned/Main.csv')):
+      try:
+          import en_vectors_web_lg
+          nlp = en_vectors_web_lg.load()
+      except:
+          os.system("pip install "+ '{}/install/en_vectors_web_lg-2.1.0.tar.gz'.format(input_data_ref))
+          import en_vectors_web_lg
+          nlp = en_vectors_web_lg.load() 
+          
       _processed=0
       train_df=pd.read_csv('{}/original/train.csv'.format(input_data_ref),encoding='utf-8',sep=',', engine='python')
 
@@ -251,10 +252,10 @@ if __name__ == '__main__':
       main_df['question2']=question2_clean
       main_df['question1']=question1_clean
       main_df.to_csv('Main.csv')
-#       def_blob_store.upload_files(
-#                         ['Main.csv'],
-#                         target_path="data/cleaned/",
-#                         overwrite=False)
+      def_blob_store.upload_files(
+                        ['Main.csv'],
+                        target_path="data/cleaned/",
+                        overwrite=False)
     else:
       print('File exists, loading old file!!')
      
