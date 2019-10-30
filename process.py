@@ -244,13 +244,13 @@ if __name__ == '__main__':
     if(not is_blob(def_blob_store,'/data/cleaned/Main.csv')):
       _processed=0
       train_df=pd.read_csv('{}/original/train.csv'.format(input_data_ref),encoding='utf-8',sep=',', engine='python')
-      train_df.head(10).to_csv('Main.csv')
-#       question1_clean=train_df.question1.apply(lambda x:process_doc(x))
-#       question2_clean=train_df.question2.apply(lambda x:process_doc(x))
-#       main_df=train_df.copy()
-#       main_df['question2']=question2_clean
-#       main_df['question1']=question1_clean
-#       main_df.to_csv('Main.csv')
+
+      question1_clean=train_df.question1.apply(lambda x:process_doc(x))
+      question2_clean=train_df.question2.apply(lambda x:process_doc(x))
+      main_df=train_df.copy()
+      main_df['question2']=question2_clean
+      main_df['question1']=question1_clean
+      main_df.to_csv('Main.csv')
 #       def_blob_store.upload_files(
 #                         ['Main.csv'],
 #                         target_path="data/cleaned/",
