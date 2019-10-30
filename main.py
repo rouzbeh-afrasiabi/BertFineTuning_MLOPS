@@ -164,16 +164,16 @@ if __name__ == '__main__':
                                    compute_target=compute_target_cpu,
                                    source_directory='./')
 
-#     run_config = RunConfiguration()
-#     run_config.environment.docker.enabled = True
-#     run_config.environment.docker.base_image = DEFAULT_CPU_IMAGE
-#     run_config.environment.python.user_managed_dependencies = False
-#     pip_packages=[
-#                 "azureml-sdk==1.0.17", "scikit-learn==0.21.3",
-#                 "download==0.3.4", "pandas==0.25.1",
-#                 "spacy==2.1.4", "numpy==1.17.2"]
-#     run_config.environment.python.conda_dependencies = CondaDependencies.create(pip_packages=pip_packages)
+    run_config = RunConfiguration()
+    run_config.environment.docker.enabled = True
+    run_config.environment.docker.base_image = DEFAULT_CPU_IMAGE
+    run_config.environment.python.user_managed_dependencies = False
+    pip_packages=[
+                "azureml-sdk==1.0.17", "scikit-learn==0.21.3",
+                "download==0.3.4", "pandas==0.25.1",
+                "spacy==2.1.4", "numpy==1.17.2"]
+    run_config.environment.python.conda_dependencies = CondaDependencies.create(pip_packages=pip_packages)
     
-#     pipeline = Pipeline(workspace=ws, steps=[process_step])
-#     pipeline_run_first = Experiment(ws, 'test_exp_1').submit(pipeline)
-#     pipeline_run_first.wait_for_completion()
+    pipeline = Pipeline(workspace=ws, steps=[process_step])
+    pipeline_run_first = Experiment(ws, 'test_exp_1').submit(pipeline)
+    pipeline_run_first.wait_for_completion()
