@@ -1,3 +1,5 @@
+from BertFineTuning.utils import *
+from BertFineTuning.data_config import *
 
 import importlib
 import os
@@ -21,7 +23,7 @@ from azureml.data.data_reference import DataReference
 pip_packages=[
               "azureml-sdk==1.0.17", "scikit-learn==0.21.3",
               "download==0.3.4", "pandas==0.25.1",
-              "spacy==2.1.4", "numpy==1.17.2"
+              "spacy==2.1.4", "numpy==1.17.2","pytorch_transformers==1.0.0",
               ]
 
 for item in pip_packages:
@@ -58,15 +60,6 @@ def download_files(files,download_folder):
                         shutil.copyfileobj(r.raw, f)
             except:
                 raise Exception('Failed')
-                
-def check_file(filename,location=cwd):    
-    
-    return os.path.exists(os.path.join(location,filename)),os.path.join(location,filename)
-
-def check_folder(foldername,location=cwd):    
-    
-    return os.path.exists(os.path.join(location,foldername))
-
 
 def create_folders(folders):
     for folder in folders:
