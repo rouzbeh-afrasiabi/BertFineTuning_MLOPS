@@ -241,7 +241,7 @@ if __name__ == '__main__':
         import en_vectors_web_lg
         nlp = en_vectors_web_lg.load()     
 
-
+    _processed=0
     train_df=pd.read_csv('{}/original/train.csv'.format(input_data_ref),encoding='utf-8',sep=',', engine='python')
     question1_clean=train_df.question1.apply(lambda x:process_doc(x))
     question2_clean=train_df.question2.apply(lambda x:process_doc(x))
@@ -252,9 +252,4 @@ if __name__ == '__main__':
 
     
 
- 
-    
 
-
-#     df=pd.read_csv()
-#     print(df.head(10))
