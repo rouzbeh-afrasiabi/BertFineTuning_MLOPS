@@ -128,7 +128,7 @@ if __name__ == '__main__':
     def_blob_store = Datastore(ws, 'workspaceblobstore')
     blob_container_name=def_blob_store.container_name
     
-    download_folder='{}/download/'.format(input_data_ref)
+    download_folder='{}/download/'.format(processed_data_ref)
     
     word_vectors={"en_vectors_web_lg":"https://github.com/explosion/spacy-models/releases/download/en_vectors_web_lg-2.1.0/en_vectors_web_lg-2.1.0.tar.gz"}
     toDownload=[word_vectors]
