@@ -236,7 +236,7 @@ if __name__ == '__main__':
 
     _processed=0
     train_df=pd.read_csv('{}/original/train.csv'.format(input_data_ref),encoding='utf-8',sep=',', engine='python')
-    train_df.head(10).to_csv('{}/cleaned/test.csv'.format(processed_data_ref))
+    train_df.head(10).to_csv('test.csv')
 #     question1_clean=train_df.question1.apply(lambda x:process_doc(x))
 #     question2_clean=train_df.question2.apply(lambda x:process_doc(x))
 #     main_df=train_df.copy()
