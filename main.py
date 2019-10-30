@@ -115,17 +115,15 @@ if __name__ == '__main__':
     def_data_store = ws.get_default_datastore()
     def_blob_store = Datastore(ws, "workspaceblobstore")
     
-    download_folder=os.path.join(cwd,'downloads')
     data_temp_folder=os.path.join(cwd,"data_temp")
-    create_folders([data_temp_folder,download_folder])
+    create_folders([data_temp_folder])
     
     dataset={'dataset':"https://github.com/rouzbeh-afrasiabi/PublicDatasets/raw/master/train.csv.zip"}
-    word_vectors={"en_vectors_web_lg":"https://github.com/explosion/spacy-models/releases/download/en_vectors_web_lg-2.1.0/en_vectors_web_lg-2.1.0.tar.gz"}
     
-    toDownload=[dataset,word_vectors]
-    download_files(toDownload,download_folder)
+    toDownload=[dataset]
+    download_files(toDownload,data_temp_folder)
     
-    zip_file = zipfile.ZipFile(os.path.join(download_folder,"train.csv.zip"), 'r')
+    zip_file = zipfile.ZipFile(os.path.join(data_temp_folder,"train.csv.zip"), 'r')
     zip_file.extractall(data_temp_folder)
     zip_file.close() 
      
