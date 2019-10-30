@@ -173,6 +173,12 @@ if __name__ == '__main__':
     run_config = RunConfiguration()
     run_config.environment.docker.enabled = True
     run_config.environment.docker.base_image = DEFAULT_CPU_IMAGE
+    """[!NOTE] 
+    If you specify environment.python.user_managed_dependencies=False while using a custom Docker image,
+    the service will build a Conda environment within the image and execute the run in that environment, instead of
+    using Python libraries you may have installed on the base image. Set the parameter to True to use your own 
+    installed packages.
+    """
     run_config.environment.python.user_managed_dependencies = False
     pip_packages=[
                 "azureml-sdk==1.0.17", "scikit-learn==0.21.3",
