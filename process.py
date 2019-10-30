@@ -37,6 +37,13 @@ from download import download
 import numpy as np
 import pandas as pd
 
+try:
+    import en_vectors_web_lg
+    nlp = en_vectors_web_lg.load()
+except:
+    os.system("python -m spacy download en_vectors_web_lg")
+    import en_vectors_web_lg
+    nlp = en_vectors_web_lg.load() 
 
 cwd = str(os.getcwd())
 sys.path.append(cwd)
@@ -134,11 +141,7 @@ if __name__ == '__main__':
 #     download_files(toDownload,cwd)
     
 
-    try:
-        nlp = spacy.load("en_vectors_web_lg")
-    except:
-        os.system("python -m spacy download en_vectors_web_lg")
-        nlp = spacy.load("en_vectors_web_lg")    
+ 
     
 
 
