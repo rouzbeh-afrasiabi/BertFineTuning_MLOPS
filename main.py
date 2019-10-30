@@ -116,13 +116,16 @@ if __name__ == '__main__':
     def_blob_store = Datastore(ws, "workspaceblobstore")
     
     data_temp_folder=os.path.join(cwd,"data_temp")
-    create_folders([data_temp_folder])
+    download_folder=os.path.join(cwd,'download')
+    create_folders([data_temp_folder,download_folder])
     
-    dataset={'dataset':"https://github.com/rouzbeh-afrasiabi/PublicDatasets/raw/master/train.csv.zip"}
-    toDownload=[dataset]
-    download_files(toDownload,data_temp_folder)
+    train_dataset={'dataset':"https://github.com/rouzbeh-afrasiabi/PublicDatasets/raw/master/train.csv.zip"}
+    word_vectors={"en_vectors_web_lg":"https://github.com/explosion/spacy-models/releases/download/en_vectors_web_lg-2.1.0/en_vectors_web_lg-2.1.0.tar.gz"}
     
-    zip_file = zipfile.ZipFile(os.path.join(data_temp_folder,"train.csv.zip"), 'r')
+    toDownload=[train_dataset,word_vectors]
+    download_files(toDownload,download_folder)
+    
+    zip_file = zipfile.ZipFile(os.path.join(download_folder,"train.csv.zip"), 'r')
     zip_file.extractall(data_temp_folder)
     zip_file.close() 
      
@@ -130,8 +133,6 @@ if __name__ == '__main__':
                                 [os.path.join(data_temp_folder,"train.csv")],
                                 target_path="data/original/",
                                 overwrite=True)
-    
-    os.remove(os.path.join(data_temp_folder,"train.csv"))
     
     cluster_name = "cpucluster"
     
