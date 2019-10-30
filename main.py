@@ -116,16 +116,13 @@ if __name__ == '__main__':
     def_blob_store = Datastore(ws, "workspaceblobstore")
     
     data_temp_folder=os.path.join(cwd,"data_temp")
-    download_folder=os.path.join(cwd,'download')
-    create_folders([data_temp_folder,download_folder])
+    create_folders([data_temp_folder])
     
-    train_dataset={'dataset':"https://github.com/rouzbeh-afrasiabi/PublicDatasets/raw/master/train.csv.zip"}
-    word_vectors={"en_vectors_web_lg":"https://github.com/explosion/spacy-models/releases/download/en_vectors_web_lg-2.1.0/en_vectors_web_lg-2.1.0.tar.gz"}
+    dataset={'dataset':"https://github.com/rouzbeh-afrasiabi/PublicDatasets/raw/master/train.csv.zip"}
+    toDownload=[dataset]
+    download_files(toDownload,data_temp_folder)
     
-    toDownload=[train_dataset,word_vectors]
-    download_files(toDownload,download_folder)
-    
-    zip_file = zipfile.ZipFile(os.path.join(download_folder,"train.csv.zip"), 'r')
+    zip_file = zipfile.ZipFile(os.path.join(data_temp_folder,"train.csv.zip"), 'r')
     zip_file.extractall(data_temp_folder)
     zip_file.close() 
      
@@ -149,12 +146,9 @@ if __name__ == '__main__':
     input_data_ref = DataReference(
                             datastore=def_blob_store,   
                             data_reference_name="input_data_ref",
-                            path_on_datastore="data/",
-                            )
+                            path_on_datastore="data/original/train.csv")
     
-    processed_data_ref = PipelineData("processed_data_ref", 
-                                      datastore=def_blob_store,
-                                     )
+    processed_data_ref = PipelineData("processed_data_ref", datastore=def_blob_store)
     
     pipeline_params=[]    
     for k,v in vars(auth_params).items():
@@ -162,7 +156,6 @@ if __name__ == '__main__':
      pipeline_params.append(PipelineParameter(name=k,default_value=v))
      
     pipeline_params+=["--processed_data_ref",processed_data_ref]
-    pipeline_params+=["--input_data_ref",input_data_ref]
     process_step = PythonScriptStep(script_name="process.py",
                                    arguments=pipeline_params,
                                    inputs=[input_data_ref],
