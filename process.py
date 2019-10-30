@@ -133,13 +133,12 @@ if __name__ == '__main__':
     toDownload=[word_vectors]
     download_files(toDownload,cwd)
     
-    print('Dir')
-    print(os.listdir())
-#     try:
-#         nlp = spacy.load("en_vectors_web_lg")
-#     except:
-#         os.system("pip install /en_vectors_web_lg.tar.gz")
-#         nlp = spacy.load("en_vectors_web_lg")    
+
+    try:
+        nlp = spacy.load("en_vectors_web_lg")
+    except:
+        os.system("pip install /en_vectors_web_lg-2.1.0.tar.gz")
+        nlp = spacy.load("en_vectors_web_lg")    
     
 
 
