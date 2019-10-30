@@ -31,12 +31,17 @@ for item in pip_packages:
     _command="pip install --upgrade "+item
     os.system(_command)
 
-    
 from sklearn.utils.class_weight import compute_class_weight
 import spacy
 from download import download
 import numpy as np
 import pandas as pd
+
+try:
+    nlp = spacy.load("en_vectors_web_lg")
+except:
+    os.system("pip install ./downloads/en_vectors_web_lg-2.1.0.tar.gz")
+    nlp = spacy.load("en_vectors_web_lg")
 
 cwd = str(os.getcwd())
 sys.path.append(cwd)
