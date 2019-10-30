@@ -115,7 +115,112 @@ def get_ws(args):
               auth=service_principal)
   return(ws)
     
+def remove_stop_words(doc,nlp):
+    output_string=[]
+    for token in doc:
+        if (not token.is_stop):
+            output_string.append(token.text)
+        else:
+            pass
+    new_doc=nlp(" ".join(output_string))
+    return(doc)
 
+def fix_oov(doc,nlp):
+    #spell check was removed because it affects the results
+#     from spellchecker import SpellChecker
+    output=[]
+#     spell = SpellChecker()
+    for token in doc:
+        new_token=''
+        if(token.text in nlp.vocab):
+            new_token=token.text
+#         elif(token.text!=spell.correction(token.text)):
+#             new_token=spell.correction(token.text)
+#             print(token.text,' spelling changed to: ',new_token)
+        else:
+          new_token=replace_punct(token.text)
+#           print(token.text,"not found in vocabulary, changed to: ",new_token)
+        if(new_token):
+            output.append(new_token)
+    new_doc=nlp(" ".join(output))
+    return(new_doc)
+  
+def lemmatize(doc,nlp):
+    output_string=[]
+    for token in doc:
+        output_string.append(token.lemma_)
+    new_doc=nlp(" ".join(output_string))
+    return(new_doc)
+
+def remove_punct(doc,nlp):
+    output_string=[]
+    for token in doc:
+        if((not token.is_punct) and (not token.is_space)):
+            output_string.append(token.lemma_)
+    new_doc=nlp(" ".join(output_string))
+    return(new_doc)
+
+
+def to_index(doc):
+    ids=[]
+    for token in doc:
+        if token.has_vector:
+            id = nlp.vocab.vectors.key2row[token.norm]
+        else:
+            id = None 
+        ids.append(id)
+    return(ids)
+
+def replace_punct(input_string):
+    import string
+    output=input_string.translate(str.maketrans(string.punctuation,
+                 ' ' * len(string.punctuation))).replace(' '*4, ' ').replace(' '*3, ' ').replace(' '*2, ' ').strip()
+    
+    return(output)
+def remove_numbers(doc,nlp):
+    output_string=[]
+    for token in doc:
+        if(not token.is_digit):
+            output_string.append(token.lemma_)
+    new_doc=nlp(" ".join(output_string))
+    return(new_doc)  
+
+def to_vec(doc,nlp):
+    vecs=[]
+    for token in doc:
+        if token.has_vector:
+            vec = token.vector
+        else:
+            vec = None 
+            print('empty vector generated!!')
+        vecs.append(vec)
+    return(np.array(vecs))
+
+def to_piece(input):
+    global nlp
+    doc=nlp(input)
+    global sp
+    pieces=sp.EncodeAsPieces(doc.text)
+    if(pieces):
+        return(pieces)
+    else:
+        return(sp.EncodeAsPieces("<unk>"))
+    
+def process_doc(input_string):
+    global _processed
+    global nlp
+    global _max_seq_len
+    doc=nlp(str(input_string).lower())
+    doc_oov=fix_oov(doc,nlp)
+    doc_lemma=lemmatize(doc_oov,nlp)
+    doc_stop=remove_stop_words(doc_lemma,nlp)
+    doc_punct=remove_punct(doc_stop,nlp)
+    if((_processed+1)%100000==0): 
+        print('processed ',_processed+1, 'records')
+    _processed=_processed+1
+
+    return(doc_punct)
+  
 if __name__ == '__main__':
     global run
     run = Run.get_context()
@@ -135,14 +240,21 @@ if __name__ == '__main__':
         os.system("pip install "+ '{}/install/en_vectors_web_lg-2.1.0.tar.gz'.format(input_data_ref))
         import en_vectors_web_lg
         nlp = en_vectors_web_lg.load()     
-#     word_vectors={"en_vectors_web_lg":"https://github.com/explosion/spacy-models/releases/download/en_vectors_web_lg-2.1.0/en_vectors_web_lg-2.1.0.tar.gz"}
-#     toDownload=[word_vectors]
-#     download_files(toDownload,cwd)
+
+
+    train_df=pd.read_csv('{}/original/train.csv'.format(input_data_ref),encoding='utf-8',sep=',', engine='python')
+    question1_clean=train_df.question1.apply(lambda x:process_doc(x))
+    question2_clean=train_df.question2.apply(lambda x:process_doc(x))
+    main_df=train_df.copy()
+    main_df['question2']=question2_clean
+    main_df['question1']=question1_clean
+    main_df.to_csv('{}/cleaned/Main.csv'.format(input_data_ref))
+
     
 
  
     
 
 
-#     df=pd.read_csv('{}/original/train.csv'.format(input_data_ref))
+#     df=pd.read_csv()
 #     print(df.head(10))
