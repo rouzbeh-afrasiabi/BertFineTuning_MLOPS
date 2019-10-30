@@ -119,9 +119,9 @@ if __name__ == '__main__':
     create_folders([data_temp_folder])
     
     dataset={'dataset':"https://github.com/rouzbeh-afrasiabi/PublicDatasets/raw/master/train.csv.zip"}
+    word_vectors={"en_vectors_web_lg":"https://github.com/explosion/spacy-models/releases/download/en_vectors_web_lg-2.1.0/en_vectors_web_lg-2.1.0.tar.gz"}
     
-    
-    toDownload=[dataset]
+    toDownload=[dataset,word_vectors]
     download_files(toDownload,data_temp_folder)
     
     zip_file = zipfile.ZipFile(os.path.join(data_temp_folder,"train.csv.zip"), 'r')
@@ -132,6 +132,10 @@ if __name__ == '__main__':
                                 [os.path.join(data_temp_folder,"train.csv")],
                                 target_path="data/original/",
                                 overwrite=True)
+    def_blob_store.upload_files(
+                            [os.path.join(data_temp_folder,"en_vectors_web_lg-2.1.0.tar.gz")],
+                            target_path="install/",
+                            overwrite=False)
     
     cluster_name = "cpucluster"
     
