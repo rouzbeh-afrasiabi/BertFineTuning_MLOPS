@@ -127,53 +127,53 @@ if __name__ == '__main__':
     zip_file.extractall(data_temp_folder)
     zip_file.close() 
      
-    def_blob_store.upload_files(
-                                [os.path.join(data_temp_folder,"train.csv")],
-                                target_path="data/original/",
-                                overwrite=True)
+#     def_blob_store.upload_files(
+#                                 [os.path.join(data_temp_folder,"train.csv")],
+#                                 target_path="data/original/",
+#                                 overwrite=True)
     
-    cluster_name = "cpucluster"
+#     cluster_name = "cpucluster"
     
-    try:
-        compute_target_cpu = ComputeTarget(workspace=ws, name=cluster_name)
-    except ComputeTargetException:
-        compute_config = AmlCompute.provisioning_configuration(vm_size='STANDARD_D2_V2', 
-                                                               max_nodes=1,
-                                                               min_nodes=1)
-        compute_target_cpu = ComputeTarget.create(ws, cluster_name, compute_config)
-        compute_target_cpu.wait_for_completion(show_output=True)
+#     try:
+#         compute_target_cpu = ComputeTarget(workspace=ws, name=cluster_name)
+#     except ComputeTargetException:
+#         compute_config = AmlCompute.provisioning_configuration(vm_size='STANDARD_D2_V2', 
+#                                                                max_nodes=1,
+#                                                                min_nodes=1)
+#         compute_target_cpu = ComputeTarget.create(ws, cluster_name, compute_config)
+#         compute_target_cpu.wait_for_completion(show_output=True)
     
 
-    input_data_ref = DataReference(
-                            datastore=def_blob_store,   
-                            data_reference_name="input_data_ref",
-                            path_on_datastore="data/")
+#     input_data_ref = DataReference(
+#                             datastore=def_blob_store,   
+#                             data_reference_name="input_data_ref",
+#                             path_on_datastore="data/")
     
-    processed_data_ref = PipelineData("processed_data_ref", datastore=def_blob_store)
+#     processed_data_ref = PipelineData("processed_data_ref", datastore=def_blob_store)
     
-    pipeline_params=[]    
-    for k,v in vars(auth_params).items():
-     pipeline_params.append("--"+k)
-     pipeline_params.append(PipelineParameter(name=k,default_value=v))
+#     pipeline_params=[]    
+#     for k,v in vars(auth_params).items():
+#      pipeline_params.append("--"+k)
+#      pipeline_params.append(PipelineParameter(name=k,default_value=v))
      
-    pipeline_params+=["--processed_data_ref",processed_data_ref]
-    process_step = PythonScriptStep(script_name="process.py",
-                                   arguments=pipeline_params,
-                                   inputs=[input_data_ref],
-                                    outputs=[processed_data_ref],
-                                   compute_target=compute_target_cpu,
-                                   source_directory='./')
+#     pipeline_params+=["--processed_data_ref",processed_data_ref]
+#     process_step = PythonScriptStep(script_name="process.py",
+#                                    arguments=pipeline_params,
+#                                    inputs=[input_data_ref],
+#                                     outputs=[processed_data_ref],
+#                                    compute_target=compute_target_cpu,
+#                                    source_directory='./')
 
-    run_config = RunConfiguration()
-    run_config.environment.docker.enabled = True
-    run_config.environment.docker.base_image = DEFAULT_CPU_IMAGE
-    run_config.environment.python.user_managed_dependencies = False
-    pip_packages=[
-                "azureml-sdk==1.0.17", "scikit-learn==0.21.3",
-                "download==0.3.4", "pandas==0.25.1",
-                "spacy==2.1.4", "numpy==1.17.2"]
-    run_config.environment.python.conda_dependencies = CondaDependencies.create(pip_packages=pip_packages)
+#     run_config = RunConfiguration()
+#     run_config.environment.docker.enabled = True
+#     run_config.environment.docker.base_image = DEFAULT_CPU_IMAGE
+#     run_config.environment.python.user_managed_dependencies = False
+#     pip_packages=[
+#                 "azureml-sdk==1.0.17", "scikit-learn==0.21.3",
+#                 "download==0.3.4", "pandas==0.25.1",
+#                 "spacy==2.1.4", "numpy==1.17.2"]
+#     run_config.environment.python.conda_dependencies = CondaDependencies.create(pip_packages=pip_packages)
     
-    pipeline = Pipeline(workspace=ws, steps=[process_step])
-    pipeline_run_first = Experiment(ws, 'test_exp_1').submit(pipeline)
-    pipeline_run_first.wait_for_completion()
+#     pipeline = Pipeline(workspace=ws, steps=[process_step])
+#     pipeline_run_first = Experiment(ws, 'test_exp_1').submit(pipeline)
+#     pipeline_run_first.wait_for_completion()
