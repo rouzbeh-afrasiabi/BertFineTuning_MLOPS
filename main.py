@@ -173,7 +173,8 @@ if __name__ == '__main__':
     pip_packages=[
                 "azureml-sdk==1.0.17", "scikit-learn==0.21.3",
                 "download==0.3.4", "pandas==0.25.1",
-                "spacy==2.1.4", "numpy==1.17.2"]
+                "spacy==2.1.4", "numpy==1.17.2",
+    "https://github.com/explosion/spacy-models/releases/download/en_vectors_web_lg-2.1.0/en_vectors_web_lg-2.1.0.tar.gz"]
     run_config.environment.python.conda_dependencies = CondaDependencies.create(pip_packages=pip_packages)
     
     pipeline = Pipeline(workspace=ws, steps=[process_step])
