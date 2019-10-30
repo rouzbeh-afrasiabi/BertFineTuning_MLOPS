@@ -122,10 +122,13 @@ if __name__ == '__main__':
     _params=get_args()
     ws=get_ws(_params)
     
+    processed_data_ref=_params.processed_data_ref
+    input_data_ref=_params.input_data_ref
+    
     def_blob_store = Datastore(ws, 'workspaceblobstore')
     blob_container_name=def_blob_store.container_name
     
-    download_folder=os.path.join(cwd,'download')
+    download_folder='{}/download/'.format(input_data_ref)
     
     word_vectors={"en_vectors_web_lg":"https://github.com/explosion/spacy-models/releases/download/en_vectors_web_lg-2.1.0/en_vectors_web_lg-2.1.0.tar.gz"}
     toDownload=[word_vectors]
@@ -134,11 +137,10 @@ if __name__ == '__main__':
     try:
         nlp = spacy.load("en_vectors_web_lg")
     except:
-        os.system("pip install ./download/en_vectors_web_lg-2.1.0.tar.gz")
+        os.system("pip install "+download_folder)
         nlp = spacy.load("en_vectors_web_lg")    
     
-#     processed_data_ref=_params.processed_data_ref
-#     input_data_ref=_params.input_data_ref
+
 #     _pth=os.path.join(str(input_data_ref),'original','train.csv')
 #     df=pd.read_csv('{}/original/train.csv'.format(input_data_ref))
 #     print(df.head(10))
