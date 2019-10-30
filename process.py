@@ -40,7 +40,7 @@ import pandas as pd
 try:
     nlp = spacy.load("en_vectors_web_lg")
 except:
-    os.system("pip install ./downloads/en_vectors_web_lg-2.1.0.tar.gz")
+    os.system("pip install https://github.com/explosion/spacy-models/releases/download/en_vectors_web_lg-2.1.0/en_vectors_web_lg-2.1.0.tar.gz")
     nlp = spacy.load("en_vectors_web_lg")
 
 cwd = str(os.getcwd())
