@@ -142,7 +142,7 @@ if __name__ == '__main__':
     try:
         compute_target_cpu = ComputeTarget(workspace=ws, name=cluster_name)
     except ComputeTargetException:
-        compute_config = AmlCompute.provisioning_configuration(vm_size='STANDARD_D2_V2', 
+        compute_config = AmlCompute.provisioning_configuration(vm_size='STANDARD_D3_V2', 
                                                                max_nodes=1,
                                                                min_nodes=1)
         compute_target_cpu = ComputeTarget.create(ws, cluster_name, compute_config)
