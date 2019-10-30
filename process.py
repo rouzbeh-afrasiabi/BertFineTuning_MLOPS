@@ -128,16 +128,15 @@ if __name__ == '__main__':
     def_blob_store = Datastore(ws, 'workspaceblobstore')
     blob_container_name=def_blob_store.container_name
     
-    download_folder='{}/download/'.format(processed_data_ref)
     
     word_vectors={"en_vectors_web_lg":"https://github.com/explosion/spacy-models/releases/download/en_vectors_web_lg-2.1.0/en_vectors_web_lg-2.1.0.tar.gz"}
     toDownload=[word_vectors]
-    download_files(toDownload,download_folder)
+    download_files(toDownload,cwd)
     
     try:
         nlp = spacy.load("en_vectors_web_lg")
     except:
-        os.system("pip install "+download_folder)
+        os.system("pip install "+os.path.join(cwd,en_vectors_web_lg-2.1.0.tar.gz))
         nlp = spacy.load("en_vectors_web_lg")    
     
 
