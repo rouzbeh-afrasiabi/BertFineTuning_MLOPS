@@ -136,7 +136,7 @@ if __name__ == '__main__':
     try:
         nlp = spacy.load("en_vectors_web_lg")
     except:
-        os.system("pip install "+"{}\en_vectors_web_lg.tar.gz".format(os.getcwd()))
+        os.system("pip install ./en_vectors_web_lg.tar.gz")
         nlp = spacy.load("en_vectors_web_lg")    
     
 
