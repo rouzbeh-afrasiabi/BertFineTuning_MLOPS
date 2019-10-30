@@ -107,6 +107,12 @@ def get_ws(args):
               resource_group=resource_group,
               auth=service_principal)
   return(ws)
+
+def is_blob(target_blob_store='',path=''):    
+    blob_container_name=target_blob_store.container_name
+    return(target_blob_store.blob_service.exists(blob_container_name,path))
+  
+  
     
 def remove_stop_words(doc,nlp):
     output_string=[]
@@ -234,15 +240,23 @@ if __name__ == '__main__':
         import en_vectors_web_lg
         nlp = en_vectors_web_lg.load()     
 
-    _processed=0
-    train_df=pd.read_csv('{}/original/train.csv'.format(input_data_ref),encoding='utf-8',sep=',', engine='python')
-    train_df.head(10).to_csv('test.csv')
-#     question1_clean=train_df.question1.apply(lambda x:process_doc(x))
-#     question2_clean=train_df.question2.apply(lambda x:process_doc(x))
-#     main_df=train_df.copy()
-#     main_df['question2']=question2_clean
-#     main_df['question1']=question1_clean
-#     main_df.to_csv('{}/cleaned/Main.csv'.format(processed_data_ref))
+    
+    if(not is_blob(def_blob_store,'/data/cleaned/Main.csv')):
+      _processed=0
+      train_df=pd.read_csv('{}/original/train.csv'.format(input_data_ref),encoding='utf-8',sep=',', engine='python')
+      question1_clean=train_df.question1.apply(lambda x:process_doc(x))
+      question2_clean=train_df.question2.apply(lambda x:process_doc(x))
+      main_df=train_df.copy()
+      main_df['question2']=question2_clean
+      main_df['question1']=question1_clean
+      main_df.to_csv('Main.csv')
+      def_blob_store.upload_files(
+                        ['Main.csv'],
+                        target_path="data/cleaned/",
+                        overwrite=False)
+     else:
+      print('File exists, loading old file!!')
+     
 
     
 
