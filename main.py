@@ -115,14 +115,15 @@ if __name__ == '__main__':
     def_data_store = ws.get_default_datastore()
     def_blob_store = Datastore(ws, "workspaceblobstore")
     
+    download_folder=os.path.join(cwd,'download')
     data_temp_folder=os.path.join(cwd,"data_temp")
-    create_folders([data_temp_folder])
+    create_folders([data_temp_folder,download_folder])
     
     dataset={'dataset':"https://github.com/rouzbeh-afrasiabi/PublicDatasets/raw/master/train.csv.zip"}
     toDownload=[dataset]
-    download_files(toDownload,data_temp_folder)
+    download_files(toDownload,download_folder)
     
-    zip_file = zipfile.ZipFile(os.path.join(data_temp_folder,"train.csv.zip"), 'r')
+    zip_file = zipfile.ZipFile(os.path.join(download_folder,"train.csv.zip"), 'r')
     zip_file.extractall(data_temp_folder)
     zip_file.close() 
      
@@ -146,7 +147,7 @@ if __name__ == '__main__':
     input_data_ref = DataReference(
                             datastore=def_blob_store,   
                             data_reference_name="input_data_ref",
-                            path_on_datastore="data/original/train.csv")
+                            path_on_datastore="data/")
     
     processed_data_ref = PipelineData("processed_data_ref", datastore=def_blob_store)
     
