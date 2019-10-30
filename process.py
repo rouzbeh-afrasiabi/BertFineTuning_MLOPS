@@ -37,13 +37,6 @@ from download import download
 import numpy as np
 import pandas as pd
 
-try:
-    import en_vectors_web_lg
-    nlp = en_vectors_web_lg.load()
-except:
-    os.system("python -m spacy download en_vectors_web_lg")
-    import en_vectors_web_lg
-    nlp = en_vectors_web_lg.load() 
 
 cwd = str(os.getcwd())
 sys.path.append(cwd)
@@ -135,7 +128,13 @@ if __name__ == '__main__':
     def_blob_store = Datastore(ws, 'workspaceblobstore')
     blob_container_name=def_blob_store.container_name
     
-    
+    try:
+        import en_vectors_web_lg
+        nlp = en_vectors_web_lg.load()
+    except:
+        os.system("pip install "+ '{}/install/en_vectors_web_lg-2.1.0.tar.gz'.format(input_data_ref))
+        import en_vectors_web_lg
+        nlp = en_vectors_web_lg.load()     
 #     word_vectors={"en_vectors_web_lg":"https://github.com/explosion/spacy-models/releases/download/en_vectors_web_lg-2.1.0/en_vectors_web_lg-2.1.0.tar.gz"}
 #     toDownload=[word_vectors]
 #     download_files(toDownload,cwd)
