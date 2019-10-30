@@ -131,13 +131,13 @@ if __name__ == '__main__':
     
     word_vectors={"en_vectors_web_lg":"https://github.com/explosion/spacy-models/releases/download/en_vectors_web_lg-2.1.0/en_vectors_web_lg-2.1.0.tar.gz"}
     toDownload=[word_vectors]
-    download_files(toDownload,'{}/install/train.csv'.format(input_data_ref))
+    download_files(toDownload,cwd)
     
-    try:
-        nlp = spacy.load("en_vectors_web_lg")
-    except:
-        os.system("pip install "+'{}/install/train.csv'.format(input_data_ref))
-        nlp = spacy.load("en_vectors_web_lg")    
+#     try:
+#         nlp = spacy.load("en_vectors_web_lg")
+#     except:
+#         os.system("pip install "+'{}/install/train.csv'.format(input_data_ref))
+#         nlp = spacy.load("en_vectors_web_lg")    
     
 
 
