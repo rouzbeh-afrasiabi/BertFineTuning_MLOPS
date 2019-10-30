@@ -129,17 +129,17 @@ if __name__ == '__main__':
     blob_container_name=def_blob_store.container_name
     
     
-    word_vectors={"en_vectors_web_lg":"https://github.com/explosion/spacy-models/releases/download/en_vectors_web_lg-2.1.0/en_vectors_web_lg-2.1.0.tar.gz"}
-    toDownload=[word_vectors]
-    download_files(toDownload,cwd)
+#     word_vectors={"en_vectors_web_lg":"https://github.com/explosion/spacy-models/releases/download/en_vectors_web_lg-2.1.0/en_vectors_web_lg-2.1.0.tar.gz"}
+#     toDownload=[word_vectors]
+#     download_files(toDownload,cwd)
     
-    try:
-        nlp = spacy.load("en_vectors_web_lg")
-    except:
-        os.system("pip install "+os.path.join(cwd,en_vectors_web_lg-2.1.0.tar.gz))
-        nlp = spacy.load("en_vectors_web_lg")    
+#     try:
+#         nlp = spacy.load("en_vectors_web_lg")
+#     except:
+#         os.system("pip install "+os.path.join(cwd,en_vectors_web_lg-2.1.0.tar.gz))
+#         nlp = spacy.load("en_vectors_web_lg")    
     
 
 #     _pth=os.path.join(str(input_data_ref),'original','train.csv')
-#     df=pd.read_csv('{}/original/train.csv'.format(input_data_ref))
-#     print(df.head(10))
+    df=pd.read_csv('{}/original/train.csv'.format(input_data_ref))
+    print(df.head(10))
