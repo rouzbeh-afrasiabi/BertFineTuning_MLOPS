@@ -120,7 +120,9 @@ if __name__ == '__main__':
     create_folders([data_temp_folder,download_folder])
     
     dataset={'dataset':"https://github.com/rouzbeh-afrasiabi/PublicDatasets/raw/master/train.csv.zip"}
-    toDownload=[dataset]
+    word_vectors={"en_vectors_web_lg":"https://github.com/explosion/spacy-models/releases/download/en_vectors_web_lg-2.1.0/en_vectors_web_lg-2.1.0.tar.gz"}
+    
+    toDownload=[dataset,word_vectors]
     download_files(toDownload,download_folder)
     
     zip_file = zipfile.ZipFile(os.path.join(download_folder,"train.csv.zip"), 'r')
