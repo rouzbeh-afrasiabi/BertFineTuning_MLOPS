@@ -115,7 +115,7 @@ if __name__ == '__main__':
     def_data_store = ws.get_default_datastore()
     def_blob_store = Datastore(ws, "workspaceblobstore")
     
-    download_folder=os.path.join(cwd,'download')
+    download_folder=os.path.join(cwd,'downloads')
     data_temp_folder=os.path.join(cwd,"data_temp")
     create_folders([data_temp_folder,download_folder])
     
