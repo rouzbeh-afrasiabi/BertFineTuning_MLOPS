@@ -37,16 +37,44 @@ from download import download
 import numpy as np
 import pandas as pd
 
-try:
-    nlp = spacy.load("en_vectors_web_lg")
-except:
-    os.system("pip install https://github.com/explosion/spacy-models/releases/download/en_vectors_web_lg-2.1.0/en_vectors_web_lg-2.1.0.tar.gz")
-    nlp = spacy.load("en_vectors_web_lg")
 
 cwd = str(os.getcwd())
 sys.path.append(cwd)
 sys.path.insert(0, cwd)
 
+def download_files(files,download_folder):
+    for file in files:
+        [[_,location]]=file.items()
+        file_name=os.path.basename(location)
+        exists,_=check_file(file_name,download_folder)
+        if(exists):
+            pass
+        else:
+            print('*** Downloading : ',file_name)
+            try:
+                r = requests.get(location, auth=('usrname', 'password'), verify=False,stream=True)
+                r.raw.decode_content = True   
+                with open(os.path.join(download_folder,file_name), 'wb') as f:
+                        shutil.copyfileobj(r.raw, f)
+            except:
+                raise Exception('Failed')
+                
+def check_file(filename,location=cwd):    
+    
+    return os.path.exists(os.path.join(location,filename)),os.path.join(location,filename)
+
+def check_folder(foldername,location=cwd):    
+    
+    return os.path.exists(os.path.join(location,foldername))
+
+
+def create_folders(folders):
+    for folder in folders:
+        if(check_folder(folder)):
+            pass
+        else:
+            os.mkdir(folder)
+            
 def get_args():
 
   parser = argparse.ArgumentParser()
@@ -96,6 +124,18 @@ if __name__ == '__main__':
     
     def_blob_store = Datastore(ws, 'workspaceblobstore')
     blob_container_name=def_blob_store.container_name
+    
+    download_folder=os.path.join(cwd,'download')
+    
+    word_vectors={"en_vectors_web_lg":"https://github.com/explosion/spacy-models/releases/download/en_vectors_web_lg-2.1.0/en_vectors_web_lg-2.1.0.tar.gz"}
+    toDownload=[word_vectors]
+    download_files(toDownload,download_folder)
+    
+    try:
+        nlp = spacy.load("en_vectors_web_lg")
+    except:
+        os.system("pip install ./download/en_vectors_web_lg-2.1.0.tar.gz")
+        nlp = spacy.load("en_vectors_web_lg")    
     
 #     processed_data_ref=_params.processed_data_ref
 #     input_data_ref=_params.input_data_ref
