@@ -14,7 +14,8 @@ from azureml.core.runconfig import DEFAULT_CPU_IMAGE
 from azureml.core import Experiment
 from azureml.pipeline.core.graph import PipelineParameter
 from azureml.train.dnn import PyTorch
- 
+from azureml.pipeline.steps import EstimatorStep
+
 import os
 import sys
 import requests
@@ -146,7 +147,7 @@ if __name__ == '__main__':
                                                                max_nodes=1,
                                                                min_nodes=1)
         compute_target_cpu = ComputeTarget.create(ws, cluster_name, compute_config)
-        compute_target_cpu.wait_for_completion(show_output=True)
+        compute_target_cpu.wait_for_completion(show_output=True, min_node_count=None, timeout_in_minutes=0)
     
 
     input_data_ref = DataReference(
@@ -181,7 +182,7 @@ if __name__ == '__main__':
                                                                max_nodes=1)
 
         compute_target = ComputeTarget.create(ws, cluster_name, compute_config)
-        compute_target.wait_for_completion(show_output=True, min_node_count=None, timeout_in_minutes=20)
+        compute_target.wait_for_completion(show_output=True, min_node_count=None, timeout_in_minutes=0)
         
     script_params = {
        '--num_epochs': 30,
@@ -193,9 +194,15 @@ if __name__ == '__main__':
                        compute_target=compute_target,
                        entry_script='train.py',
                        use_gpu=True,
-                       pip_packages=['pillow==5.4.1'])
+                       pip_packages=[])
 
-
+    est_step = EstimatorStep(name="Train_Step",
+                            estimator=estimator,
+                            estimator_entry_script_arguments=["--datadir", input_data, "--output", output],
+                            runconfig_pipeline_params=None,
+                            inputs=[input_data],
+                            outputs=[output],
+                            compute_target=compute_target)
     
 
     
