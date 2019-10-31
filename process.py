@@ -294,7 +294,7 @@ if __name__ == '__main__':
         print ('Loading Saved file ...')
         split_data = []
         for (i, name) in enumerate(names):
-            temp = pd.read_csv(name+'.csv'.format(input_data_ref) , index_col=[0])
+            temp = pd.read_csv('{}/cleaned/'+name+'.csv'.format(input_data_ref) , index_col=[0])
             split_data.append(temp)
         split_data_dict = dict(zip(names, [data for data in split_data]))
    
