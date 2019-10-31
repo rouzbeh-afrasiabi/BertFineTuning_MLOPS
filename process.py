@@ -235,6 +235,7 @@ if __name__ == '__main__':
 
     
     if(not is_blob(def_blob_store,'/data/cleaned/Main.csv')):
+      print('Processing input data ...')
       try:
           import en_vectors_web_lg
           nlp = en_vectors_web_lg.load()
@@ -245,22 +246,17 @@ if __name__ == '__main__':
           
       _processed=0
       train_df=pd.read_csv('{}/original/train.csv'.format(input_data_ref),encoding='utf-8',sep=',', engine='python')
-
-#       question1_clean=train_df.question1.apply(lambda x:process_doc(x))
-#       question2_clean=train_df.question2.apply(lambda x:process_doc(x))
-#       main_df=train_df.copy()
-#       main_df['question2']=question2_clean
-#       main_df['question1']=question1_clean
-#       main_df.to_csv('Main.csv')
-      
-      train_df.to_csv('Main.csv')     
+      question1_clean=train_df.question1.apply(lambda x:process_doc(x))
+      question2_clean=train_df.question2.apply(lambda x:process_doc(x))
+      main_df=train_df.copy()
+      main_df['question2']=question2_clean
+      main_df['question1']=question1_clean
+      main_df.to_csv('Main.csv')
+      #This is the best method of creating a blob, upload will fail
       def_blob_store.blob_service.create_blob_from_path(container_name=blob_container_name,
                                                         blob_name='data/cleaned/Main.csv',
                                                         file_path='Main.csv')
     else:
-      print('File exists, loading old file!!')
+      print('Main.csv exists, loading old file!!')
      
-
-    
-
 
