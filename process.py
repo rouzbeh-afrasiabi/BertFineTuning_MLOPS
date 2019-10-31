@@ -234,6 +234,7 @@ def split_dataset(target_df, fracs, weights):
   
   
 if __name__ == '__main__':
+    random_state=123
     global run
     run = Run.get_context()
     _params=get_args()
