@@ -7,6 +7,13 @@ def chunks(l, n):
     for i in range(0, len(l), n):
         yield l[i:i + n]
         
+def create_folders(folders):
+    for folder in folders:
+        if(check_folder(folder)):
+            pass
+        else:
+            os.mkdir(folder)   
+            
 def check_file(filename,location=cwd):    
     
     return os.path.exists(os.path.join(location,filename)),os.path.join(location,filename)
