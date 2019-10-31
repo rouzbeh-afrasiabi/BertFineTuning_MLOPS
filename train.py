@@ -95,14 +95,23 @@ def train():
     BFT.train(model_config,ml.bert_train_split,ml.bert_valid_split,epochs=3,print_every=100,validate_at_epoch=0)
     
 if (__name__ == "__main__"):
-    global run
-    run = Run.get_context()
-    _params=get_args()
-    ws=get_ws(_params)
+	global run
+	run = Run.get_context()
+    	_params=get_args()
+	ws=get_ws(_params)
+
+	processed_data_ref=_params.processed_data_ref
+
+	def_blob_store = Datastore(ws, 'workspaceblobstore')
+	blob_container_name=def_blob_store.container_name
+
+	blob_container_name=def_blob_store.container_name
+	blob_gen=def_blob_store.blob_service.list_blobs(blob_container_name)
+	blob_list=[item for item in blob_gen]
+	for item in blob_list:
+		if ('data' in item.name):
+			def_blob_store.blob_service.get_blob_to_path(container_name=blob_container_name,
+                                             blob_name=item.name,
+                                            file_path=item.name)   
     
-    processed_data_ref=_params.processed_data_ref
-    
-    def_blob_store = Datastore(ws, 'workspaceblobstore')
-    blob_container_name=def_blob_store.container_name
-    
-    train()
+#     train()
