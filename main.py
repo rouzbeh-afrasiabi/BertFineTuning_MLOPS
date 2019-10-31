@@ -13,7 +13,7 @@ from azureml.core.conda_dependencies import CondaDependencies
 from azureml.core.runconfig import DEFAULT_CPU_IMAGE
 from azureml.core import Experiment
 from azureml.pipeline.core.graph import PipelineParameter
-
+from azureml.train.dnn import PyTorch
  
 import os
 import sys
@@ -136,7 +136,7 @@ if __name__ == '__main__':
                             [os.path.join(data_temp_folder,"en_vectors_web_lg-2.1.0.tar.gz")],
                             target_path="data/install/",
                             overwrite=False)
-    
+    #step1
     cluster_name = "cpucluster"
     
     try:
@@ -169,22 +169,58 @@ if __name__ == '__main__':
                                     outputs=[processed_data_ref],
                                    compute_target=compute_target_cpu,
                                    source_directory='./')
+    #step 2
+    
+    cluster_name = "gpucluster"
+    try:
+        compute_target = ComputeTarget(workspace=ws, name=cluster_name)
+        print('Found existing compute target')
+    except ComputeTargetException:
+        print('Creating a new compute target...')
+        compute_config = AmlCompute.provisioning_configuration(vm_size='STANDARD_NC6', 
+                                                               max_nodes=1)
 
+        compute_target = ComputeTarget.create(ws, cluster_name, compute_config)
+        compute_target.wait_for_completion(show_output=True, min_node_count=None, timeout_in_minutes=20)
+        
+    script_params = {
+       '--num_epochs': 30,
+       '--output_dir': './outputs'
+                    }
+    
+    estimator = PyTorch(source_directory='./',
+                       script_params=script_params,
+                       compute_target=compute_target,
+                       entry_script='train.py',
+                       use_gpu=True,
+                       pip_packages=['pillow==5.4.1'])
+
+
+    
+
+    
+    
+    
     run_config = RunConfiguration()
     run_config.environment.docker.enabled = True
     run_config.environment.docker.base_image = DEFAULT_CPU_IMAGE
-    """[!NOTE] 
-    If you specify environment.python.user_managed_dependencies=False while using a custom Docker image,
-    the service will build a Conda environment within the image and execute the run in that environment, instead of
-    using Python libraries you may have installed on the base image. Set the parameter to True to use your own 
-    installed packages.
-    """
     run_config.environment.python.user_managed_dependencies = False
     pip_packages=[
                 "azureml-sdk==1.0.17", "scikit-learn==0.21.3",
                 "download==0.3.4", "pandas==0.25.1",
                 "spacy==2.1.4", "numpy==1.17.2"]
+    
     run_config.environment.python.conda_dependencies = CondaDependencies.create(pip_packages=pip_packages)
+    run_config = RunConfiguration()
+    run_config.environment.docker.enabled = True
+    run_config.environment.docker.base_image = DEFAULT_CPU_IMAGE
+    run_config.environment.python.user_managed_dependencies = False
+    pip_packages=[
+                "azureml-sdk==1.0.17", "scikit-learn==0.21.3",
+                "download==0.3.4", "pandas==0.25.1",
+                "spacy==2.1.4", "numpy==1.17.2"]
+    run_config.environment.python.conda_dependencies = CondaDependencies.create(pip_packages=pip_packages)    
+    
     
     pipeline = Pipeline(workspace=ws, steps=[process_step])
     pipeline_run_first = Experiment(ws, 'test_exp_1').submit(pipeline)
