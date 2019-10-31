@@ -254,10 +254,9 @@ if __name__ == '__main__':
 #       main_df.to_csv('Main.csv')
       
       train_df.to_csv('Main.csv')     
-      def_blob_store.upload_files(
-                        ['Main.csv'],
-                        target_path="data/cleaned/",
-                        overwrite=False)
+      def_blob_store.blob_service.create_blob_from_path(container_name=blob_container_name,
+                                                        blob_name='data/cleaned/Main.csv',
+                                                        file_path='Main.csv')
     else:
       print('File exists, loading old file!!')
      
