@@ -184,7 +184,8 @@ if __name__ == '__main__':
 
         compute_target = ComputeTarget.create(ws, cluster_name, compute_config)
         compute_target.wait_for_completion(show_output=True, min_node_count=None, timeout_in_minutes=0)
-    
+        
+    script_params={}
     estimator = PyTorch(source_directory='./',
                        script_params=script_params,
                        compute_target=compute_target,
