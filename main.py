@@ -175,20 +175,20 @@ if __name__ == '__main__':
     
     cluster_name = "gpucluster"
     try:
-        compute_target = ComputeTarget(workspace=ws, name=cluster_name)
+        compute_target_gpu = ComputeTarget(workspace=ws, name=cluster_name)
         print('Found existing compute target')
     except ComputeTargetException:
         print('Creating a new compute target...')
         compute_config = AmlCompute.provisioning_configuration(vm_size='STANDARD_NC6', 
                                                                max_nodes=1)
 
-        compute_target = ComputeTarget.create(ws, cluster_name, compute_config)
-        compute_target.wait_for_completion(show_output=True, min_node_count=None, timeout_in_minutes=0)
+        compute_target_gpu = ComputeTarget.create(ws, cluster_name, compute_config)
+        compute_target_gpu.wait_for_completion(show_output=True, min_node_count=None, timeout_in_minutes=0)
         
     script_params={}
     estimator = PyTorch(source_directory='./',
                        script_params=script_params,
-                       compute_target=compute_target,
+                       compute_target=compute_target_gpu,
                        entry_script='train.py',
                        use_gpu=True,
                        pip_packages=[],
@@ -200,7 +200,7 @@ if __name__ == '__main__':
                             runconfig_pipeline_params=None,
                             inputs=[],
                             outputs=[],
-                            compute_target=compute_target)
+                            compute_target=compute_target_gpu)
     est_step.run_after(process_step)
 
     
