@@ -220,6 +220,19 @@ def process_doc(input_string):
 
     return(doc_punct)
   
+  def split_dataset(target_df, fracs, weights):
+    global random_state
+    datasets = []
+    in_features = target_df.copy()
+    for frac in fracs:
+        temp = in_features.sample(frac=frac, replace=False,
+                                  random_state=random_state,
+                                  weights=weights)
+        in_features.drop(temp.index, inplace=True)
+        datasets.append(temp)
+    return [data for data in datasets]
+  
+  
 if __name__ == '__main__':
     global run
     run = Run.get_context()
@@ -260,6 +273,42 @@ if __name__ == '__main__':
       print('Main.csv exists, loading old processed file!!')
       train_df=pd.read_csv('{}/cleaned/Main.csv'.format(input_data_ref), index_col=[0])
 
-#     train_df=train_df.dropna(axis=0,how='any')
-#     weights=compute_class_weight('balanced',train_df['is_duplicate'].unique(),train_df['is_duplicate'].values.flatten())
-#     weights_all=train_df['is_duplicate'].map(dict(zip(train_df['is_duplicate'].unique(),weights)))
+    train_df=train_df.dropna(axis=0,how='any')
+    weights=compute_class_weight('balanced',train_df['is_duplicate'].unique(),train_df['is_duplicate'].values.flatten())
+    weights_all=train_df['is_duplicate'].map(dict(zip(train_df['is_duplicate'].unique(),weights)))
+    
+    target_dataset = train_df
+    names = ['train_split', 'valid_split', 'test_split']
+    
+    if not all([is_blob(def_blob_store,'data/cleaned/'+name+'.csv') for name in names]):
+        split_data = split_dataset(target_dataset, [0.6, .5, 1],
+                                   weights_all)
+        split_data_dict = dict(zip(names, [data for data in split_data]))
+        for (i, data) in enumerate(split_data):
+            data.to_csv(names[i]+'.csv')
+            def_blob_store.blob_service.create_blob_from_path(container_name=blob_container_name,
+                                                        blob_name='data/cleaned/'+names[i]+'.csv',
+                                                        file_path=names[i]+'.csv')
+    else:
+        print ('Loading Saved file ...')
+        split_data = []
+        for (i, name) in enumerate(names):
+            temp = pd.read_csv(name+'.csv'.format(input_data_ref) , index_col=[0])
+            split_data.append(temp)
+        split_data_dict = dict(zip(names, [data for data in split_data]))
+   
+    bert_split_data = []
+    names = ['bert_train_split', 'bert_valid_split', 'bert_test_split']
+    if not all([is_blob(def_blob_store,'data/processed/'+name+'.csv') for name in names]):
+        for (k, target) in copy.deepcopy(split_data_dict).items():
+            target['question1'] = target['question1'].apply(lambda x:x[0:_max_string_length])
+            target['question2'] = target['question2'].apply(lambda x:x[0:_max_string_length])
+            marked_text = pd.DataFrame('[CLS] ' + target['question1']+ ' [SEP] ' + target['question2']+ ' [SEP] ', columns=['text'])
+            marked_text['label'] = target['is_duplicate']
+            bert_split_data.append(marked_text)
+
+        for (i, data) in enumerate(bert_split_data):
+            data.to_csv(names[i]+'.csv')
+            def_blob_store.blob_service.create_blob_from_path(container_name=blob_container_name,
+                                                        blob_name='data/processed/'+names[i]+'.csv',
+                                                        file_path=names[i]+'.csv')
