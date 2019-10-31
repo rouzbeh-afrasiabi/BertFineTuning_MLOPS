@@ -1,5 +1,5 @@
 
-[![Build status](https://dev.azure.com/rafrasia/firstProject/_apis/build/status/test_MLOPS)](https://dev.azure.com/rafrasia/firstProject/_build/latest?definitionId=6)
+[![Build status](https://dev.azure.com/rafrasia/firstProject/_apis/build/status/BERT)](https://dev.azure.com/rafrasia/firstProject/_build/latest?definitionId=8)
 
 
 
