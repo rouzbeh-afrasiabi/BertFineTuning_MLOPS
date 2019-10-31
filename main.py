@@ -161,7 +161,8 @@ if __name__ == '__main__':
     for k,v in vars(auth_params).items():
      pipeline_params.append("--"+k)
      pipeline_params.append(PipelineParameter(name=k,default_value=v))
-     
+    
+    auth_params= pipeline_params.copy()
     pipeline_params+=["--processed_data_ref",processed_data_ref]
     pipeline_params+=["--input_data_ref",input_data_ref]
     process_step = PythonScriptStep(script_name="process.py",
@@ -193,16 +194,17 @@ if __name__ == '__main__':
                        compute_target=compute_target,
                        entry_script='train.py',
                        use_gpu=True,
-                       pip_packages=[])
+                       pip_packages=[],
+                       framework_version='1.2')
 
     est_step = EstimatorStep(name="Train_Step",
                             estimator=estimator,
-                            estimator_entry_script_arguments=["--datadir", input_data, "--output", output],
+                            estimator_entry_script_arguments=auth_params,
                             runconfig_pipeline_params=None,
-                            inputs=[input_data],
-                            outputs=[output],
+                            inputs=[],
+                            outputs=[],
                             compute_target=compute_target)
-    
+    est_step.run_after(process_step)
 
     
     
@@ -228,6 +230,6 @@ if __name__ == '__main__':
     run_config.environment.python.conda_dependencies = CondaDependencies.create(pip_packages=pip_packages)    
     
     
-    pipeline = Pipeline(workspace=ws, steps=[process_step])
+    pipeline = Pipeline(workspace=ws, steps=[process_step,est_step])
     pipeline_run_first = Experiment(ws, 'test_exp_1').submit(pipeline)
     pipeline_run_first.wait_for_completion()
