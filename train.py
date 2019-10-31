@@ -105,4 +105,4 @@ if (__name__ == "__main__"):
     def_blob_store = Datastore(ws, 'workspaceblobstore')
     blob_container_name=def_blob_store.container_name
     
-#     train()
+    train()
