@@ -246,16 +246,14 @@ if __name__ == '__main__':
       _processed=0
       train_df=pd.read_csv('{}/original/train.csv'.format(input_data_ref),encoding='utf-8',sep=',', engine='python')
 
-      question1_clean=train_df.question1.apply(lambda x:process_doc(x))
-      question2_clean=train_df.question2.apply(lambda x:process_doc(x))
-      main_df=train_df.copy()
-      main_df['question2']=question2_clean
-      main_df['question1']=question1_clean
-      main_df.to_csv('Main.csv')
+#       question1_clean=train_df.question1.apply(lambda x:process_doc(x))
+#       question2_clean=train_df.question2.apply(lambda x:process_doc(x))
+#       main_df=train_df.copy()
+#       main_df['question2']=question2_clean
+#       main_df['question1']=question1_clean
+#       main_df.to_csv('Main.csv')
       
-      ws=get_ws(_params)
-      def_blob_store = Datastore(ws, 'workspaceblobstore')
-      
+      train_df.to_csv('Main.csv')     
       def_blob_store.upload_files(
                         ['Main.csv'],
                         target_path="data/cleaned/",
