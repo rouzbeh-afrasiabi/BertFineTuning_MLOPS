@@ -14,6 +14,7 @@ pip_packages=[
               "pandas==0.25.1",
               "numpy==1.17.2",
 	      "pytorch_transformers==1.0.0",
+	      "pycm==2.2",
               ]
 
 for item in pip_packages:
