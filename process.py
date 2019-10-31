@@ -234,7 +234,7 @@ if __name__ == '__main__':
         
 
     
-    if(not is_blob(def_blob_store,'/data/cleaned/Main.csv')):
+    if(not is_blob(def_blob_store,'data/cleaned/Main.csv')):
       print('Processing input data ...')
       try:
           import en_vectors_web_lg
