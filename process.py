@@ -257,6 +257,9 @@ if __name__ == '__main__':
                                                         blob_name='data/cleaned/Main.csv',
                                                         file_path='Main.csv')
     else:
-      print('Main.csv exists, loading old file!!')
-     
+      print('Main.csv exists, loading old processed file!!')
+      train_df=pd.read_csv('{}/cleaned/Main.csv'.format(input_data_ref), index_col=[0])
 
+#     train_df=train_df.dropna(axis=0,how='any')
+#     weights=compute_class_weight('balanced',train_df['is_duplicate'].unique(),train_df['is_duplicate'].values.flatten())
+#     weights_all=train_df['is_duplicate'].map(dict(zip(train_df['is_duplicate'].unique(),weights)))
