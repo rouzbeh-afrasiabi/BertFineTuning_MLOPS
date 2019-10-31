@@ -252,6 +252,10 @@ if __name__ == '__main__':
       main_df['question2']=question2_clean
       main_df['question1']=question1_clean
       main_df.to_csv('Main.csv')
+      
+      ws=get_ws(_params)
+      def_blob_store = Datastore(ws, 'workspaceblobstore')
+      
       def_blob_store.upload_files(
                         ['Main.csv'],
                         target_path="data/cleaned/",
