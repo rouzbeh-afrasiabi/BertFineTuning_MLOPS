@@ -220,17 +220,17 @@ def process_doc(input_string):
 
     return(doc_punct)
   
-  def split_dataset(target_df, fracs, weights):
-    global random_state
-    datasets = []
-    in_features = target_df.copy()
-    for frac in fracs:
-        temp = in_features.sample(frac=frac, replace=False,
-                                  random_state=random_state,
-                                  weights=weights)
-        in_features.drop(temp.index, inplace=True)
-        datasets.append(temp)
-    return [data for data in datasets]
+def split_dataset(target_df, fracs, weights):
+  global random_state
+  datasets = []
+  in_features = target_df.copy()
+  for frac in fracs:
+      temp = in_features.sample(frac=frac, replace=False,
+                                random_state=random_state,
+                                weights=weights)
+      in_features.drop(temp.index, inplace=True)
+      datasets.append(temp)
+  return [data for data in datasets]
   
   
 if __name__ == '__main__':
