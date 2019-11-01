@@ -99,19 +99,30 @@ if (__name__ == "__main__"):
     run = Run.get_context()
     _params=get_args()
     ws=get_ws(_params)
+    
+    data_folder=os.path.join(cwd,'data')
+    download_folder=os.path.join(cwd,'download')
+    processed_data_folder=os.path.join(cwd,'data','processed')
+    original_data_folder=os.path.join(cwd,'data','original')
+    cleaned_data_folder=os.path.join(cwd,'data','cleaned')
+    create_folders([data_folder,download_folder,processed_data_folder,cleaned_data_folder])
+    
+    print(os.listdir())
 
-    processed_data_ref=_params.processed_data_ref
 
-    def_blob_store = Datastore(ws, 'workspaceblobstore')
-    blob_container_name=def_blob_store.container_name
 
-    blob_container_name=def_blob_store.container_name
-    blob_gen=def_blob_store.blob_service.list_blobs(blob_container_name)
-    blob_list=[item for item in blob_gen]
-    for item in blob_list:
-        if ('data' in item.name):
-            def_blob_store.blob_service.get_blob_to_path(container_name=blob_container_name,
-                                             blob_name=item.name,
-                                            file_path=item.name)   
+#     processed_data_ref=_params.processed_data_ref
+
+#     def_blob_store = Datastore(ws, 'workspaceblobstore')
+#     blob_container_name=def_blob_store.container_name
+
+#     blob_container_name=def_blob_store.container_name
+#     blob_gen=def_blob_store.blob_service.list_blobs(blob_container_name)
+#     blob_list=[item for item in blob_gen]
+#     for item in blob_list:
+#         if ('data' in item.name):
+#             def_blob_store.blob_service.get_blob_to_path(container_name=blob_container_name,
+#                                              blob_name=item.name,
+#                                             file_path=item.name)   
     
 #     train()
