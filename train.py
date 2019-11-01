@@ -82,7 +82,7 @@ def is_blob(target_blob_store='',path=''):
     return(target_blob_store.blob_service.exists(blob_container_name,path))
 
 
-def train():
+def train(MLOPS_run):
     
     BFT=BertFineTuning()
 
@@ -93,7 +93,7 @@ def train():
     ml=MultiLoader()
     
     print("Training in progress ...")
-    BFT.train(model_config,ml.bert_train_split,ml.bert_valid_split,epochs=3,print_every=100,validate_at_epoch=0)
+    BFT.train(MLOPS_run,model_config,ml.bert_train_split,ml.bert_valid_split,epochs=3,print_every=100,validate_at_epoch=0)
     
 if (__name__ == "__main__"):
     global run
@@ -122,4 +122,4 @@ if (__name__ == "__main__"):
                                              blob_name=item.name,
                                             file_path=item.name)   
     print(os.listdir())
-    train()
+    train(run)
