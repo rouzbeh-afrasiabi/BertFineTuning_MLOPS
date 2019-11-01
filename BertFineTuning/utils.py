@@ -42,10 +42,4 @@ def get_params(target):
             return([])
     else:
         return([])
-    
-data_folder=os.path.join(cwd,'data')
-download_folder=os.path.join(cwd,'download')
-processed_data_folder=os.path.join(cwd,'data','processed')
-original_data_folder=os.path.join(cwd,'data','original')
-cleaned_data_folder=os.path.join(cwd,'data','cleaned')
-create_folders([data_folder,download_folder,processed_data_folder,cleaned_data_folder])
+   
