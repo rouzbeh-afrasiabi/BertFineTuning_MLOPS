@@ -1,5 +1,6 @@
         
 model_config={
+            'model_name':'BertFineTuning',
             'num_classes':2,
             'dropout_prob':0.1,
             'in_features':768,
