@@ -95,7 +95,7 @@ class BertFineTuning():
         self.cm_test=[]
         self.cm_train=[]
         self.last_epoch=0
-        self.epochs=100
+        self.epochs=self.config['epochs']
         self.validate_at_epoch=0
         self.print_every=100
         self.e=0
