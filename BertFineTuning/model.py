@@ -100,7 +100,8 @@ class BertFineTuning():
         self.print_every=100
         self.e=0
         self.target_folder=cwd
-        self.save_folder=os.path.join(cwd,'checkpoints')
+        self.model_name= self.config['model_name']
+        self.save_folder=os.path.join(cwd,'outputs',self.config['model_name'],'checkpoints')
         
     @staticmethod
     def _update_dict_strict(target,**kwargs):
