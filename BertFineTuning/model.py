@@ -194,8 +194,9 @@ class BertFineTuning():
         gc.collect()
         return cm,np.mean(loss_history)
 
-    def train(self,model_config,train_loader,valid_loader,epochs=100,print_every=100,validate_at_epoch=0):
+    def train(self,MLOPS_run,model_config,train_loader,valid_loader,epochs=100,print_every=100,validate_at_epoch=0):
         model=self.model
+        run=MLOPS_run
         train_res=np.array([])
         train_lbl=np.array([])
         if(not self.check_point_loaded):
