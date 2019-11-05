@@ -102,8 +102,8 @@ if (__name__ == "__main__"):
     _params=get_args()
     ws=get_ws(_params)
     
-    data_folder=os.path.join(cwd,project_config['project_name'],'data')
-    download_folder=os.path.join(cwd,project_config['project_name'],'download')
+    data_folder=os.path.join(cwd,'data')
+    download_folder=os.path.join(cwd,'download')
     processed_data_folder=os.path.join(data_folder,'processed')
     original_data_folder=os.path.join(data_folder,'original')
     cleaned_data_folder=os.path.join(data_folder,'cleaned')
