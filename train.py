@@ -100,14 +100,14 @@ if (__name__ == "__main__"):
     global run
     run = Run.get_context()
     _params=get_args()
-#     ws=get_ws(_params)
+    ws=get_ws(_params)
     
-#     data_folder=os.path.join(cwd,'data')
-#     download_folder=os.path.join(cwd,'download')
-#     processed_data_folder=os.path.join(data_folder,'processed')
-#     original_data_folder=os.path.join(data_folder,'original')
-#     cleaned_data_folder=os.path.join(data_folder,'cleaned')
-#     create_folders([data_folder,download_folder,processed_data_folder,cleaned_data_folder])
+    data_folder=os.path.join(cwd,'data')
+    download_folder=os.path.join(cwd,'download')
+    processed_data_folder=os.path.join(data_folder,'processed')
+    original_data_folder=os.path.join(data_folder,'original')
+    cleaned_data_folder=os.path.join(data_folder,'cleaned')
+    create_folders([data_folder,download_folder,processed_data_folder,cleaned_data_folder])
 
 #     processed_data_ref=_params.processed_data_ref
 
