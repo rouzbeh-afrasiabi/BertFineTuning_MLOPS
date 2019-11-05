@@ -127,7 +127,17 @@ class BertFineTuning():
         print("Precision: ",cm.PPV)
         print("recall: ",cm.TPR)
         cm.print_matrix() 
-
+        
+    def log_results(self,target,cm):
+        self.run.log('AUCI'+target,cm.AUCI)
+        self.run.log("MCC"+target,cm.MCC)
+        self.run.log("Accuracy"+target,cm.ACC)
+        self.run.log("F1 Macro"+target,cm.F1_Macro)
+        self.run.log('F1 Micro'+target,cm.F1_Micro)
+        self.run.log("F1"+target,cm.F1)
+        self.run.log("Precision"+target,cm.PPV)
+        self.run.log("recall"+target,cm.TPR)
+        
     def save_it(self,target_folder):
         self.model.eval()
         print("Saving Model ...")
@@ -196,7 +206,7 @@ class BertFineTuning():
 
     def train(self,MLOPS_run,train_loader,valid_loader):
         model=self.model
-        run=MLOPS_run
+        self.run=MLOPS_run
         train_res=np.array([])
         train_lbl=np.array([])
         if(not self.check_point_loaded):
@@ -234,9 +244,12 @@ class BertFineTuning():
                     cm=ConfusionMatrix(train_lbl,train_res)
                     self.cm_train.append(cm)
                     print("epoch: ",e+1," step: ",(i+1)//self.print_every,"/",self.train_loops)
-                    print("Batch Loss: ",np.mean(self.loss_history[len(self.loss_history)-self.print_every:len(self.loss_history)-1]))
+                    batch_loss=np.mean(self.loss_history[len(self.loss_history)-self.print_every:len(self.loss_history)-1])
+                    print("Batch Loss: ",batch_loss)
+                    self.run.log('batch_loss',batch_loss)
                     print('train results: \n')
                     self.print_results(cm)
+                    self.log_results('train',cm)
                     train_res=np.array([])
                     train_lbl=np.array([])
                 torch.cuda.empty_cache()
@@ -250,7 +263,9 @@ class BertFineTuning():
                 _cm,_loss=self.predict(valid_loader)
                 self.test_loss_history.append(_loss)
                 print('test loss: ', _loss)
+                self.run.log('train_loos',_loss)
                 self.print_results(_cm)
+                self.log_results('validation',_cm)
                 print("************************","\n")
                 self.cm_test.append(_cm)
             self.save_it(self.save_folder)
