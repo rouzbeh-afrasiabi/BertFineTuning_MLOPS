@@ -129,14 +129,14 @@ class BertFineTuning():
         cm.print_matrix() 
         
     def log_results(self,target,cm):
-        self.run.log('AUCI'+target,cm.AUCI)
-        self.run.log("MCC"+target,cm.MCC)
-        self.run.log("Accuracy"+target,cm.ACC)
-        self.run.log("F1 Macro"+target,cm.F1_Macro)
-        self.run.log('F1 Micro'+target,cm.F1_Micro)
-        self.run.log("F1"+target,cm.F1)
-        self.run.log("Precision"+target,cm.PPV)
-        self.run.log("recall"+target,cm.TPR)
+        self.run.log('AUCI '+target,cm.AUCI)
+        self.run.log("MCC "+target,cm.MCC)
+        self.run.log("Accuracy "+target,cm.ACC)
+        self.run.log("F1 Macro "+target,cm.F1_Macro)
+        self.run.log('F1 Micro '+target,cm.F1_Micro)
+        self.run.log("F1 "+target,cm.F1)
+        self.run.log("Precision "+target,cm.PPV)
+        self.run.log("recall "+target,cm.TPR)
         
     def save_it(self,target_folder):
         self.model.eval()
@@ -240,6 +240,8 @@ class BertFineTuning():
                 _,prediction= torch.max(output, 1)  
                 train_res=np.append(train_res,(prediction.data.to('cpu')))
                 train_lbl=np.append(train_lbl,labels.data.cpu().numpy())
+                self.run.log("epoch: ",e+1)
+                self.run.log("step",(i+1)//self.print_every)
                 if((i+1)%self.print_every==0):
                     cm=ConfusionMatrix(train_lbl,train_res)
                     self.cm_train.append(cm)
@@ -256,7 +258,7 @@ class BertFineTuning():
                 gc.collect()
 
             print("epoch: ",e+1,"Train  Loss: ",np.mean(self.loss_history[-1*(len(train_loader)-1):]),"\n")
-
+            self.run.log('train_loss',np.mean(self.loss_history[-1*(len(train_loader)-1):]))
             if(((e+1)>=validate_at_epoch)):
                 print("************************")
                 print("validation started ...","\n")
