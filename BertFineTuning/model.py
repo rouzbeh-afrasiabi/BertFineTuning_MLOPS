@@ -131,7 +131,7 @@ class BertFineTuning():
     def log_results(self,target,cm):
         self.run.log('Overall ACC '+target,cm.overall_stat['Overall ACC'])
         self.run.log('F1 Macro '+target,cm.overall_stat['F1 Macro'])
-        elf.run.log('F1 Macro '+target,cm.overall_stat['F1 Micro'])
+        self.run.log('F1 Macro '+target,cm.overall_stat['F1 Micro'])
         self.run.log('Overall MCC '+target,cm.overall_stat['Overall MCC'])
         self.run.log('TPR Macro '+target,cm.overall_stat['TPR Macro'])
         self.run.log('TPR Micro '+target,cm.overall_stat['TPR Micro'])
