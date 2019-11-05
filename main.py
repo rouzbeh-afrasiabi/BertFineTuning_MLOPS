@@ -173,35 +173,35 @@ if __name__ == '__main__':
                                    source_directory='./')
     #step 2
     
-    cluster_name = "gpucluster"
-    try:
-        compute_target_gpu = ComputeTarget(workspace=ws, name=cluster_name)
-        print('Found existing compute target')
-    except ComputeTargetException:
-        print('Creating a new compute target...')
-        compute_config = AmlCompute.provisioning_configuration(vm_size='STANDARD_NC6', 
-                                                               max_nodes=1)
+#     cluster_name = "gpucluster"
+#     try:
+#         compute_target_gpu = ComputeTarget(workspace=ws, name=cluster_name)
+#         print('Found existing compute target')
+#     except ComputeTargetException:
+#         print('Creating a new compute target...')
+#         compute_config = AmlCompute.provisioning_configuration(vm_size='STANDARD_NC6', 
+#                                                                max_nodes=1)
 
-        compute_target_gpu = ComputeTarget.create(ws, cluster_name, compute_config)
-        compute_target_gpu.wait_for_completion(show_output=True, min_node_count=None, timeout_in_minutes=0)
+#         compute_target_gpu = ComputeTarget.create(ws, cluster_name, compute_config)
+#         compute_target_gpu.wait_for_completion(show_output=True, min_node_count=None, timeout_in_minutes=0)
         
-    script_params={}
-    estimator = PyTorch(source_directory='./',
-                       script_params=script_params,
-                       compute_target=compute_target_gpu,
-                       entry_script='train.py',
-                       use_gpu=True,
-                       pip_packages=[],
-                       framework_version='1.2')
+#     script_params={}
+#     estimator = PyTorch(source_directory='./',
+#                        script_params=script_params,
+#                        compute_target=compute_target_gpu,
+#                        entry_script='train.py',
+#                        use_gpu=True,
+#                        pip_packages=[],
+#                        framework_version='1.2')
 
-    est_step = EstimatorStep(name="Train_Step",
-                            estimator=estimator,
-                            estimator_entry_script_arguments=auth_params,
-                            runconfig_pipeline_params=None,
-                            inputs=[],
-                            outputs=[],
-                            compute_target=compute_target_gpu)
-    est_step.run_after(process_step)
+#     est_step = EstimatorStep(name="Train_Step",
+#                             estimator=estimator,
+#                             estimator_entry_script_arguments=auth_params,
+#                             runconfig_pipeline_params=None,
+#                             inputs=[],
+#                             outputs=[],
+#                             compute_target=compute_target_gpu)
+#     est_step.run_after(process_step)
 
     
     
@@ -227,6 +227,6 @@ if __name__ == '__main__':
     run_config.environment.python.conda_dependencies = CondaDependencies.create(pip_packages=pip_packages)    
     
     
-    pipeline = Pipeline(workspace=ws, steps=[process_step,est_step])
-    pipeline_run_first = Experiment(ws, 'test_exp_2').submit(pipeline)
+    pipeline = Pipeline(workspace=ws, steps=[process_step])#,est_step
+    pipeline_run_first = Experiment(ws, 'BertFineTuning_1').submit(pipeline)
     pipeline_run_first.wait_for_completion()
