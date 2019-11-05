@@ -131,11 +131,11 @@ if __name__ == '__main__':
      
     def_blob_store.upload_files(
                                 [os.path.join(data_temp_folder,"train.csv")],
-                                target_path="data/original/",
+                                target_path=f"{project_config.project_name}/data/original/",
                                 overwrite=True)
     def_blob_store.upload_files(
                             [os.path.join(data_temp_folder,"en_vectors_web_lg-2.1.0.tar.gz")],
-                            target_path="data/install/",
+                            target_path="f"{project_config.project_name}/data/install/",
                             overwrite=False)
     #step1
     cluster_name = "cpucluster"
@@ -153,7 +153,7 @@ if __name__ == '__main__':
     input_data_ref = DataReference(
                             datastore=def_blob_store,   
                             data_reference_name="input_data_ref",
-                            path_on_datastore="data/")
+                            path_on_datastore="f"{project_config.project_name}/data/")
     
     processed_data_ref = PipelineData("processed_data_ref", datastore=def_blob_store)
     
@@ -165,6 +165,7 @@ if __name__ == '__main__':
     auth_params= pipeline_params.copy()
     pipeline_params+=["--processed_data_ref",processed_data_ref]
     pipeline_params+=["--input_data_ref",input_data_ref]
+    pipeline_params+=["--project_name",project_config.project_name]
     process_step = PythonScriptStep(script_name="process.py",
                                    arguments=pipeline_params,
                                    inputs=[input_data_ref],
