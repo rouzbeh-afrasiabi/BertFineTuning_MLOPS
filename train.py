@@ -109,19 +109,19 @@ if (__name__ == "__main__"):
     cleaned_data_folder=os.path.join(data_folder,'cleaned')
     create_folders([data_folder,download_folder,processed_data_folder,cleaned_data_folder])
 
-#     processed_data_ref=_params.processed_data_ref
+    processed_data_ref=_params.processed_data_ref
 
-#     def_blob_store = Datastore(ws, 'workspaceblobstore')
-#     blob_container_name=def_blob_store.container_name
+    def_blob_store = Datastore(ws, 'workspaceblobstore')
+    blob_container_name=def_blob_store.container_name
 
-#     blob_container_name=def_blob_store.container_name
-#     blob_gen=def_blob_store.blob_service.list_blobs(blob_container_name)
-#     blob_list=[item for item in blob_gen]
-#     for item in blob_list:
-#         if (re.match('^'+project_config['project_name']+'\/data\/processed',item.name)):
-#             _loc=item.name.split(project_config['project_name']+'/')[1]
-#             def_blob_store.blob_service.get_blob_to_path(container_name=blob_container_name,
-#                                              blob_name=item.name,
-#                                             file_path=_loc)   
-#     print(os.listdir())
+    blob_container_name=def_blob_store.container_name
+    blob_gen=def_blob_store.blob_service.list_blobs(blob_container_name)
+    blob_list=[item for item in blob_gen]
+    for item in blob_list:
+        if (re.match('^'+project_config['project_name']+'\/data\/processed',item.name)):
+            _loc=item.name.split(project_config['project_name']+'/')[1]
+            def_blob_store.blob_service.get_blob_to_path(container_name=blob_container_name,
+                                             blob_name=item.name,
+                                            file_path=_loc)   
+    print(os.listdir())
 #     train(run)
