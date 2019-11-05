@@ -270,7 +270,7 @@ if __name__ == '__main__':
       main_df.to_csv('Main.csv')
       #This is the best method of creating a blob, upload will fail
       def_blob_store.blob_service.create_blob_from_path(container_name=blob_container_name,
-                                                        blob_name=f'{project_config['project_name']}/data/cleaned/Main.csv',
+                                                        blob_name=f"{project_config['project_name']}/data/cleaned/Main.csv",
                                                         file_path='Main.csv')
     else:
       print('Main.csv exists, loading old processed file!!')
@@ -290,7 +290,7 @@ if __name__ == '__main__':
         for (i, data) in enumerate(split_data):
             data.to_csv(names[i]+'.csv')
             def_blob_store.blob_service.create_blob_from_path(container_name=blob_container_name,
-                                                        blob_name=f'{project_config['project_name']}/data/cleaned/'+names[i]+'.csv',
+                                                        blob_name=f"{project_config['project_name']}/data/cleaned/"+names[i]+".csv",
                                                         file_path=names[i]+'.csv')
     else:
         print ('Loading Saved file ...')
@@ -313,5 +313,5 @@ if __name__ == '__main__':
         for (i, data) in enumerate(bert_split_data):
             data.to_csv(names[i]+'.csv')
             def_blob_store.blob_service.create_blob_from_path(container_name=blob_container_name,
-                                                        blob_name=f'{project_config['project_name']}/data/processed/'+names[i]+'.csv',
+                                                        blob_name=f"{project_config['project_name']}/data/processed/"+names[i]+".csv",
                                                         file_path=names[i]+'.csv')
