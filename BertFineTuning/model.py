@@ -213,7 +213,7 @@ class BertFineTuning():
             self.cm_test=self.checkpoint['cm_test']
             self.cm_train=self.checkpoint['cm_train']
             self.last_epoch=self.checkpoint['last_epoch']
-        self.train_loops=len(train_loader)//print_every
+        self.train_loops=len(train_loader)//self.print_every
         for e in range(self.last_epoch,self.epochs,1):
             self.e=e
 
@@ -230,11 +230,11 @@ class BertFineTuning():
                 _,prediction= torch.max(output, 1)  
                 train_res=np.append(train_res,(prediction.data.to('cpu')))
                 train_lbl=np.append(train_lbl,labels.data.cpu().numpy())
-                if((i+1)%print_every==0):
+                if((i+1)%self.print_every==0):
                     cm=ConfusionMatrix(train_lbl,train_res)
                     self.cm_train.append(cm)
-                    print("epoch: ",e+1," step: ",(i+1)//print_every,"/",self.train_loops)
-                    print("Batch Loss: ",np.mean(self.loss_history[len(self.loss_history)-print_every:len(self.loss_history)-1]))
+                    print("epoch: ",e+1," step: ",(i+1)//self.print_every,"/",self.train_loops)
+                    print("Batch Loss: ",np.mean(self.loss_history[len(self.loss_history)-self.print_every:len(self.loss_history)-1]))
                     print('train results: \n')
                     self.print_results(cm)
                     train_res=np.array([])
