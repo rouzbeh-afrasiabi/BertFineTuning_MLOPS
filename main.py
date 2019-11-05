@@ -165,7 +165,6 @@ if __name__ == '__main__':
     auth_params= pipeline_params.copy()
     pipeline_params+=["--processed_data_ref",processed_data_ref]
     pipeline_params+=["--input_data_ref",input_data_ref]
-    pipeline_params+=["--project_name",project_config['project_name']]
     process_step = PythonScriptStep(script_name="process.py",
                                    arguments=pipeline_params,
                                    inputs=[input_data_ref],
