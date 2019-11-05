@@ -28,7 +28,7 @@ try:
 except:
     os.system("pip install download")
 
-
+from project_config import *
 cwd = str(os.getcwd())
 sys.path.append(cwd)
 sys.path.insert(0, cwd)
