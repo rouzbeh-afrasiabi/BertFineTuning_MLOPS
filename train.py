@@ -119,7 +119,7 @@ if (__name__ == "__main__"):
     blob_list=[item for item in blob_gen]
     for item in blob_list:
         if (re.match('^'+project_config['project_name']+'\/data\/processed',item.name)):
-            _loc=item.name.split(project_config['project_name']+'/')
+            _loc=item.name.split(project_config['project_name']+'/')[1]
             def_blob_store.blob_service.get_blob_to_path(container_name=blob_container_name,
                                              blob_name=item.name,
                                             file_path=_loc)   
