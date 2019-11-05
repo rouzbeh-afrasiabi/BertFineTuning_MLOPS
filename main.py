@@ -229,4 +229,6 @@ if __name__ == '__main__':
     
     pipeline = Pipeline(workspace=ws, steps=[process_step,est_step])
     pipeline_run_first = Experiment(ws, 'BertFineTuning_1').submit(pipeline)
-    pipeline_run_first.wait_for_completion()
+    #https://docs.microsoft.com/en-us/python/api/azureml-pipeline-core/azureml.pipeline.core.pipelinerun?view=azure-ml-py
+    pipeline_run_first.wait_for_completion(show_output=True, timeout_seconds=9223372036854775807, raise_on_error=True) 
+        
