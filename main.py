@@ -135,7 +135,7 @@ if __name__ == '__main__':
                                 overwrite=True)
     def_blob_store.upload_files(
                             [os.path.join(data_temp_folder,"en_vectors_web_lg-2.1.0.tar.gz")],
-                            target_path="f"{project_config.project_name}/data/install/",
+                            target_path=f"{project_config.project_name}/data/install/",
                             overwrite=False)
     #step1
     cluster_name = "cpucluster"
