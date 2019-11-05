@@ -250,7 +250,7 @@ if __name__ == '__main__':
         
 
     
-    if(not is_blob(def_blob_store,f'{project_config.project_name}/data/cleaned/Main.csv')):
+    if(not is_blob(def_blob_store,f'{project_config['project_name']}/data/cleaned/Main.csv')):
       print('Processing input data ...')
       try:
           import en_vectors_web_lg
@@ -270,7 +270,7 @@ if __name__ == '__main__':
       main_df.to_csv('Main.csv')
       #This is the best method of creating a blob, upload will fail
       def_blob_store.blob_service.create_blob_from_path(container_name=blob_container_name,
-                                                        blob_name=f'{project_config.project_name}/data/cleaned/Main.csv',
+                                                        blob_name=f'{project_config['project_name']}/data/cleaned/Main.csv',
                                                         file_path='Main.csv')
     else:
       print('Main.csv exists, loading old processed file!!')
@@ -283,14 +283,14 @@ if __name__ == '__main__':
     target_dataset = train_df
     names = ['train_split', 'valid_split', 'test_split']
     
-    if not all([is_blob(def_blob_store,f'{project_config.project_name}/data/cleaned/'+name+'.csv') for name in names]):
+    if not all([is_blob(def_blob_store,f'{project_config['project_name']}/data/cleaned/'+name+'.csv') for name in names]):
         split_data = split_dataset(target_dataset, [0.6, .5, 1],
                                    weights_all)
         split_data_dict = dict(zip(names, [data for data in split_data]))
         for (i, data) in enumerate(split_data):
             data.to_csv(names[i]+'.csv')
             def_blob_store.blob_service.create_blob_from_path(container_name=blob_container_name,
-                                                        blob_name=f'{project_config.project_name}/data/cleaned/'+names[i]+'.csv',
+                                                        blob_name=f'{project_config['project_name']}/data/cleaned/'+names[i]+'.csv',
                                                         file_path=names[i]+'.csv')
     else:
         print ('Loading Saved file ...')
@@ -302,7 +302,7 @@ if __name__ == '__main__':
    
     bert_split_data = []
     names = ['bert_train_split', 'bert_valid_split', 'bert_test_split']
-    if not all([is_blob(def_blob_store,f'{project_config.project_name}/data/processed/'+name+'.csv') for name in names]):
+    if not all([is_blob(def_blob_store,f'{project_config['project_name']}/data/processed/'+name+'.csv') for name in names]):
         for (k, target) in copy.deepcopy(split_data_dict).items():
             target['question1'] = target['question1'].apply(lambda x:x[0:max_string_length])
             target['question2'] = target['question2'].apply(lambda x:x[0:max_string_length])
@@ -313,5 +313,5 @@ if __name__ == '__main__':
         for (i, data) in enumerate(bert_split_data):
             data.to_csv(names[i]+'.csv')
             def_blob_store.blob_service.create_blob_from_path(container_name=blob_container_name,
-                                                        blob_name=f'{project_config.project_name}/data/processed/'+names[i]+'.csv',
+                                                        blob_name=f'{project_config['project_name']}/data/processed/'+names[i]+'.csv',
                                                         file_path=names[i]+'.csv')
