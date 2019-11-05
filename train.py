@@ -124,4 +124,4 @@ if (__name__ == "__main__"):
                                              blob_name=item.name,
                                             file_path=_loc)   
     print(os.listdir())
-#     train(run)
+    train(run)
