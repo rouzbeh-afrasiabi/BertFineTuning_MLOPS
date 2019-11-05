@@ -228,5 +228,5 @@ if __name__ == '__main__':
     
     
     pipeline = Pipeline(workspace=ws, steps=[process_step,est_step])
-    pipeline_run_first = Experiment(ws, 'test_exp_1').submit(pipeline)
+    pipeline_run_first = Experiment(ws, 'test_exp_2').submit(pipeline)
     pipeline_run_first.wait_for_completion()
