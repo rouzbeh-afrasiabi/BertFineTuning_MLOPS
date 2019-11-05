@@ -96,8 +96,8 @@ class BertFineTuning():
         self.cm_train=[]
         self.last_epoch=0
         self.epochs=self.config['epochs']
-        self.validate_at_epoch=0
-        self.print_every=100
+        self.validate_at_epoch=self.config['validate_at_epoch']
+        self.print_every=self.config['print_every']
         self.e=0
         self.target_folder=cwd
         self.model_name= self.config['model_name']
@@ -194,7 +194,7 @@ class BertFineTuning():
         gc.collect()
         return cm,np.mean(loss_history)
 
-    def train(self,MLOPS_run,model_config,train_loader,valid_loader,epochs=100,print_every=100,validate_at_epoch=0):
+    def train(self,MLOPS_run,train_loader,valid_loader):
         model=self.model
         run=MLOPS_run
         train_res=np.array([])
