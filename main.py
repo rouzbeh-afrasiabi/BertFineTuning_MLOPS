@@ -171,7 +171,7 @@ if __name__ == '__main__':
                                     outputs=[processed_data_ref],
                                    compute_target=compute_target_cpu,
                                    source_directory='./')
-    step 2
+#     step 2
     
     cluster_name = "gpucluster"
     try:
