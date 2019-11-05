@@ -94,7 +94,7 @@ def train(MLOPS_run):
     ml=MultiLoader()
     
     print("Training in progress ...")
-    BFT.train(MLOPS_run,model_config,ml.bert_train_split,ml.bert_valid_split,epochs=3,print_every=100,validate_at_epoch=0)
+    BFT.train(MLOPS_run,model_config,ml.bert_train_split,ml.bert_valid_split)#,epochs=3,print_every=100,validate_at_epoch=0
     
 if (__name__ == "__main__"):
     global run
