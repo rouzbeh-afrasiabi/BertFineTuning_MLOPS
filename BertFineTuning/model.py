@@ -102,6 +102,7 @@ class BertFineTuning():
         self.target_folder=cwd
         self.model_name= self.config['model_name']
         self.save_folder=os.path.join(cwd,'outputs',self.config['model_name'],'checkpoints')
+        self.ws=None
         
     @staticmethod
     def _update_dict_strict(target,**kwargs):
@@ -207,6 +208,8 @@ class BertFineTuning():
     def train(self,MLOPS_run,train_loader,valid_loader):
         model=self.model
         self.run=MLOPS_run
+        experiment = self.run.experiment
+        self.ws = self.run.experiment.workspace
         train_res=np.array([])
         train_lbl=np.array([])
         if(not self.check_point_loaded):
@@ -226,7 +229,7 @@ class BertFineTuning():
         self.train_loops=len(train_loader)//self.print_every
         for e in range(self.last_epoch,self.epochs,1):
             self.e=e
-
+            self.run = experiment.start_logging()
             for i,(list_of_indices,segments_ids,labels) in enumerate(train_loader):
                 model.train()
                 list_of_indices,segments_ids,labels=list_of_indices.to(self.device),segments_ids.to(self.device),labels.to(self.device)
@@ -271,5 +274,6 @@ class BertFineTuning():
                 print("************************","\n")
                 self.cm_test.append(_cm)
             self.save_it(self.save_folder)
-            self.scheduler.step()        
+            self.scheduler.step() 
+            self.run.complete()
             
