@@ -1,2 +1,5 @@
 Project Snapshot
 https://docs.microsoft.com/en-us/azure/machine-learning/service/how-to-save-write-experiment-files
+
+Enabling CI/CD for Machine Learning project with Azure Pipelines
+https://www.azuredevopslabs.com/labs/vstsextend/aml/
