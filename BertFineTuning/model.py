@@ -240,7 +240,7 @@ class BertFineTuning():
                 _,prediction= torch.max(output, 1)  
                 train_res=np.append(train_res,(prediction.data.to('cpu')))
                 train_lbl=np.append(train_lbl,labels.data.cpu().numpy())
-                self.run.log("epoch: ",e+1)
+                self.run.log("epoch",e+1)
                 self.run.log("step",(i+1)//self.print_every)
                 if((i+1)%self.print_every==0):
                     cm=ConfusionMatrix(train_lbl,train_res)
