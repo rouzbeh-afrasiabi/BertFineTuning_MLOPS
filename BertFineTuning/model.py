@@ -130,14 +130,14 @@ class BertFineTuning():
         cm.print_matrix() 
  
     def log_results(self,target,cm):
-        self.run.log('Overall ACC '+target,cm.overall_stat['Overall ACC'])
-        self.run.log('F1 Macro '+target,cm.overall_stat['F1 Macro'])
-        self.run.log('F1 Macro '+target,cm.overall_stat['F1 Micro'])
-        self.run.log('Overall MCC '+target,cm.overall_stat['Overall MCC'])
-        self.run.log('TPR Macro '+target,cm.overall_stat['TPR Macro'])
-        self.run.log('TPR Micro '+target,cm.overall_stat['TPR Micro'])
-        self.run.log('PPV Micro '+target,cm.overall_stat['PPV Micro'])
-        self.run.log('PPV Macro '+target,cm.overall_stat['PPV Macro'])
+        self.child_run.log('Overall ACC '+target,cm.overall_stat['Overall ACC'])
+        self.child_run.log('F1 Macro '+target,cm.overall_stat['F1 Macro'])
+        self.child_run.log('F1 Macro '+target,cm.overall_stat['F1 Micro'])
+        self.child_run.log('Overall MCC '+target,cm.overall_stat['Overall MCC'])
+        self.child_run.log('TPR Macro '+target,cm.overall_stat['TPR Macro'])
+        self.child_run.log('TPR Micro '+target,cm.overall_stat['TPR Micro'])
+        self.child_run.log('PPV Micro '+target,cm.overall_stat['PPV Micro'])
+        self.child_run.log('PPV Macro '+target,cm.overall_stat['PPV Macro'])
         
     def save_it(self,target_folder):
         self.model.eval()
@@ -227,53 +227,54 @@ class BertFineTuning():
             self.cm_train=self.checkpoint['cm_train']
             self.last_epoch=self.checkpoint['last_epoch']
         self.train_loops=len(train_loader)//self.print_every
-        for e in range(self.last_epoch,self.epochs,1):
-            self.e=e
-            self.run = experiment.start_logging()
-            for i,(list_of_indices,segments_ids,labels) in enumerate(train_loader):
-                model.train()
-                list_of_indices,segments_ids,labels=list_of_indices.to(self.device),segments_ids.to(self.device),labels.to(self.device)
-                output=model(list_of_indices,segments_ids)
-                loss=self.criterion(output,labels)
-                self.loss_history.append(loss.data.item())
-                self.learning_rate.append(self.scheduler.get_lr())
-                loss.backward()
-                self.optimizer.step()
-                self.optimizer.zero_grad()
-                _,prediction= torch.max(output, 1)  
-                train_res=np.append(train_res,(prediction.data.to('cpu')))
-                train_lbl=np.append(train_lbl,labels.data.cpu().numpy())
-                self.run.log("epoch",e+1)
-                self.run.log("step",(i+1)//self.print_every)
-                if((i+1)%self.print_every==0):
-                    cm=ConfusionMatrix(train_lbl,train_res)
-                    self.cm_train.append(cm)
-                    print("epoch: ",e+1," step: ",(i+1)//self.print_every,"/",self.train_loops)
-                    batch_loss=np.mean(self.loss_history[len(self.loss_history)-self.print_every:len(self.loss_history)-1])
-                    print("Batch Loss: ",batch_loss)
-                    self.run.log('batch_loss',batch_loss)
-                    print('train results: \n')
-                    self.print_results(cm)
-                    self.log_results('train',cm)
-                    train_res=np.array([])
-                    train_lbl=np.array([])
-                torch.cuda.empty_cache()
-                gc.collect()
+        with experiment.start_logging() as parent_run:
+            for e in range(self.last_epoch,self.epochs,1):
+                self.e=e
+                with parent_run.child_run() as child:
+                    self.child_run=child
+                    for i,(list_of_indices,segments_ids,labels) in enumerate(train_loader):
+                        model.train()
+                        list_of_indices,segments_ids,labels=list_of_indices.to(self.device),segments_ids.to(self.device),labels.to(self.device)
+                        output=model(list_of_indices,segments_ids)
+                        loss=self.criterion(output,labels)
+                        self.loss_history.append(loss.data.item())
+                        self.learning_rate.append(self.scheduler.get_lr())
+                        loss.backward()
+                        self.optimizer.step()
+                        self.optimizer.zero_grad()
+                        _,prediction= torch.max(output, 1)  
+                        train_res=np.append(train_res,(prediction.data.to('cpu')))
+                        train_lbl=np.append(train_lbl,labels.data.cpu().numpy())
+                        self.child_run.log("epoch",e+1)
+                        self.child_run.log("step",(i+1)//self.print_every)
+                        if((i+1)%self.print_every==0):
+                            cm=ConfusionMatrix(train_lbl,train_res)
+                            self.cm_train.append(cm)
+                            print("epoch: ",e+1," step: ",(i+1)//self.print_every,"/",self.train_loops)
+                            batch_loss=np.mean(self.loss_history[len(self.loss_history)-self.print_every:len(self.loss_history)-1])
+                            print("Batch Loss: ",batch_loss)
+                            self.child_run.log('batch_loss',batch_loss)
+                            print('train results: \n')
+                            self.print_results(cm)
+                            self.log_results('train',cm)
+                            train_res=np.array([])
+                            train_lbl=np.array([])
+                        torch.cuda.empty_cache()
+                        gc.collect()
 
-            print("epoch: ",e+1,"Train  Loss: ",np.mean(self.loss_history[-1*(len(train_loader)-1):]),"\n")
-            self.run.log('train_loss',np.mean(self.loss_history[-1*(len(train_loader)-1):]))
-            if(((e+1)>=validate_at_epoch)):
-                print("************************")
-                print("validation started ...","\n")
-                _cm,_loss=self.predict(valid_loader)
-                self.test_loss_history.append(_loss)
-                print('test loss: ', _loss)
-                self.run.log('test_loss',_loss)
-                self.print_results(_cm)
-                self.log_results('validation',_cm)
-                print("************************","\n")
-                self.cm_test.append(_cm)
-            self.save_it(self.save_folder)
-            self.scheduler.step() 
-            self.run.complete()
-            
+                    print("epoch: ",e+1,"Train  Loss: ",np.mean(self.loss_history[-1*(len(train_loader)-1):]),"\n")
+                    self.child_run.log('train_loss',np.mean(self.loss_history[-1*(len(train_loader)-1):]))
+                    if(((e+1)>=validate_at_epoch)):
+                        print("************************")
+                        print("validation started ...","\n")
+                        _cm,_loss=self.predict(valid_loader)
+                        self.test_loss_history.append(_loss)
+                        print('test loss: ', _loss)
+                        self.child_run.log('test_loss',_loss)
+                        self.print_results(_cm)
+                        self.log_results('validation',_cm)
+                        print("************************","\n")
+                        self.cm_test.append(_cm)
+                    self.save_it(self.save_folder)
+                    self.scheduler.step() 
+
