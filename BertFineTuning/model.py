@@ -277,4 +277,4 @@ class BertFineTuning():
                         self.cm_test.append(_cm)
                     self.save_it(self.save_folder)
                     self.scheduler.step() 
-
+                    self.child_run.complete()
