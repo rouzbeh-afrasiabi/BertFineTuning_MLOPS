@@ -230,9 +230,6 @@ class BertFineTuning():
                 with parent_run.child_run() as child:
                     self.child_run=child
                     for i,(list_of_indices,segments_ids,labels) in enumerate(train_loader):
-                        #just for testing
-                        if(i>1):
-                            break()
                         model.train()
                         list_of_indices,segments_ids,labels=list_of_indices.to(self.device),segments_ids.to(self.device),labels.to(self.device)
                         output=model(list_of_indices,segments_ids)
@@ -260,6 +257,8 @@ class BertFineTuning():
                             train_res=np.array([])
                             train_lbl=np.array([])
                         torch.cuda.empty_cache()
+                        if(i>3):
+                            break
 
                     print("epoch: ",e+1,"Train  Loss: ",np.mean(self.loss_history[-1*(len(train_loader)-1):]),"\n")
                     self.child_run.log('train_loss',np.float(np.mean(self.loss_history[-1*(len(train_loader)-1):])))
