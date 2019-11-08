@@ -87,7 +87,6 @@ class BertFineTuning():
         self.criterion=None
         self.optimizer=None
         self.scheduler=None
-        self.validate_at_epoch=0
         self.checkpoint=None
         self.loss_history=[]
         self.test_loss_history=[]
@@ -264,7 +263,7 @@ class BertFineTuning():
 
                     print("epoch: ",e+1,"Train  Loss: ",np.mean(self.loss_history[-1*(len(train_loader)-1):]),"\n")
                     self.child_run.log('train_loss',np.float(np.mean(self.loss_history[-1*(len(train_loader)-1):])))
-                    if(((e+1)>=validate_at_epoch)):
+                    if(((e+1)>=self.validate_at_epoch)):
                         print("************************")
                         print("validation started ...","\n")
                         _cm,_loss=self.predict(valid_loader)
