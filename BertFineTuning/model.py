@@ -257,8 +257,6 @@ class BertFineTuning():
                             train_res=np.array([])
                             train_lbl=np.array([])
                         torch.cuda.empty_cache()
-                        if(i>3):
-                            break
 
                     print("epoch: ",e+1,"Train  Loss: ",np.mean(self.loss_history[-1*(len(train_loader)-1):]),"\n")
                     self.child_run.log('train_loss',np.float(np.mean(self.loss_history[-1*(len(train_loader)-1):])))
