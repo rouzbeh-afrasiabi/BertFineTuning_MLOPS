@@ -198,10 +198,8 @@ class BertFineTuning():
                 predictions=np.append(predictions,_prediction.data.to('cpu'))
                 labels=np.append(labels,_labels.cpu())
                 torch.cuda.empty_cache()
-                gc.collect()
             cm=ConfusionMatrix(labels,predictions)
         torch.cuda.empty_cache()
-        gc.collect()
         return cm,np.mean(loss_history)
 
     def train(self,MLOPS_run,train_loader,valid_loader):
@@ -232,6 +230,9 @@ class BertFineTuning():
                 with parent_run.child_run() as child:
                     self.child_run=child
                     for i,(list_of_indices,segments_ids,labels) in enumerate(train_loader):
+                        #just for testing
+                        if(i>1):
+                            break()
                         model.train()
                         list_of_indices,segments_ids,labels=list_of_indices.to(self.device),segments_ids.to(self.device),labels.to(self.device)
                         output=model(list_of_indices,segments_ids)
@@ -259,7 +260,6 @@ class BertFineTuning():
                             train_res=np.array([])
                             train_lbl=np.array([])
                         torch.cuda.empty_cache()
-                        gc.collect()
 
                     print("epoch: ",e+1,"Train  Loss: ",np.mean(self.loss_history[-1*(len(train_loader)-1):]),"\n")
                     self.child_run.log('train_loss',np.float(np.mean(self.loss_history[-1*(len(train_loader)-1):])))
@@ -277,3 +277,4 @@ class BertFineTuning():
                     self.save_it(self.save_folder)
                     self.scheduler.step() 
                     self.child_run.complete()
+                    gc.collect()
