@@ -100,7 +100,7 @@ class BertFineTuning():
         self.e=0
         self.target_folder=cwd
         self.model_name= self.config['model_name']
-        self.save_folder=os.path.join(cwd,'outputs',self.config['model_name'],'checkpoints')
+        self.save_folder='./outputs/'
         self.ws=None
         
     @staticmethod
@@ -257,7 +257,8 @@ class BertFineTuning():
                             train_res=np.array([])
                             train_lbl=np.array([])
                         torch.cuda.empty_cache()
-
+                        if(i>2):
+                            break
                     print("epoch: ",e+1,"Train  Loss: ",np.mean(self.loss_history[-1*(len(train_loader)-1):]),"\n")
                     self.child_run.log('train_loss',np.float(np.mean(self.loss_history[-1*(len(train_loader)-1):])))
                     if(((e+1)>=self.validate_at_epoch)):
