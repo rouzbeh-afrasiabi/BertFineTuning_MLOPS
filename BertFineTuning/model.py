@@ -100,7 +100,7 @@ class BertFineTuning():
         self.e=0
         self.target_folder=cwd
         self.model_name= self.config['model_name']
-        self.save_folder='./outputs/'
+        self.save_folder='outputs/'
         self.ws=None
         
     @staticmethod
@@ -161,8 +161,11 @@ class BertFineTuning():
             torch.save(checkpoint,target_folder+'/'+'checkpoint'+str(self.e+1)+'.pth' )
             print("Model Saved.\n")
             self.model.train()
+            return(target_folder+'/'+'checkpoint'+str(self.e+1)+'.pth')
         except:
             print("Failed to Save Model!!")
+            
+        
             
     def load_checkpoint(self,path):
         if(check_file(path)):
@@ -272,7 +275,8 @@ class BertFineTuning():
                         self.log_results('validation',_cm)
                         print("************************","\n")
                         self.cm_test.append(_cm)
-                    self.save_it(self.save_folder)
+                    checkpoint_path=self.save_it(self.save_folder)
+                    self.child_run.upload_file(name = checkpoint_path, path_or_stream = checkpoint_path)
                     self.scheduler.step() 
                     self.child_run.complete()
                     gc.collect()
