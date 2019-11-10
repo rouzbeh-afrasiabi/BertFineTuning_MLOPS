@@ -7,7 +7,7 @@ model_config={
             'learning_rate_PT': 1e-5,
             'learning_rate_CLS': 1e-3,
             'weight_decay':5e-4,
-            'epochs':10,
+            'epochs':4,
             'print_every':100,
              'validate_at_epoch':0
                    }
