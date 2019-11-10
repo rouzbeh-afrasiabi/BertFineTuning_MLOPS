@@ -22,6 +22,8 @@ import gc
 
 from pytorch_transformers import BertModel
 
+from azureml.core import Experiment, Run, Workspace
+
 cwd = os.getcwd()
 sys.path.append(cwd)
 sys.path.insert(0, cwd)
