@@ -205,9 +205,9 @@ class BertFineTuning():
         torch.cuda.empty_cache()
         return cm,np.mean(loss_history)
 
-    def train(self,MLOPS_run,train_loader,valid_loader):
+    def train(self,train_loader,valid_loader):
         model=self.model
-        self.run=MLOPS_run
+        self.run=Run.get_context()
         experiment = self.run.experiment
         self.ws = self.run.experiment.workspace
         train_res=np.array([])
