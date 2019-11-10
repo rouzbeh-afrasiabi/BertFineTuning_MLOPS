@@ -22,8 +22,6 @@ import gc
 
 from pytorch_transformers import BertModel
 
-from azureml.core import Experiment, Run, Workspace
-
 cwd = os.getcwd()
 sys.path.append(cwd)
 sys.path.insert(0, cwd)
@@ -207,9 +205,9 @@ class BertFineTuning():
         torch.cuda.empty_cache()
         return cm,np.mean(loss_history)
 
-    def train(self,train_loader,valid_loader):
+    def train(self,MLOPS_run,train_loader,valid_loader):
         model=self.model
-        self.run=Run.get_context()
+        self.run=MLOPS_run
         experiment = self.run.experiment
         self.ws = self.run.experiment.workspace
         train_res=np.array([])
