@@ -227,12 +227,14 @@ class BertFineTuning():
             self.cm_train=self.checkpoint['cm_train']
             self.last_epoch=self.checkpoint['last_epoch']
         self.train_loops=len(train_loader)//self.print_every
-        with experiment.start_logging() as parent_run:
-            for e in range(self.last_epoch,self.epochs,1):
-                self.e=e
-                with parent_run.child_run() as child:
-                    self.child_run=child
-                    for i,(list_of_indices,segments_ids,labels) in enumerate(train_loader):
+        
+        for e in range(self.last_epoch,self.epochs,1):
+            self.e=e
+            with experiment.start_logging() as parent_run:
+                self.run=parent_run
+                for i,(list_of_indices,segments_ids,labels) in enumerate(train_loader):
+                    with self.run.child_run() as child:
+                        self.child_run=child
                         model.train()
                         list_of_indices,segments_ids,labels=list_of_indices.to(self.device),segments_ids.to(self.device),labels.to(self.device)
                         output=model(list_of_indices,segments_ids)
@@ -246,21 +248,23 @@ class BertFineTuning():
                         train_res=np.append(train_res,(prediction.data.to('cpu')))
                         train_lbl=np.append(train_lbl,labels.data.cpu().numpy())
                         self.run.log("epoch",e+1)
-                        self.run.log("step",(i+1)//self.print_every)
+                        self.child_run.log("step",(i+1)//self.print_every)
                         if((i+1)%self.print_every==0):
                             cm=ConfusionMatrix(train_lbl,train_res)
                             self.cm_train.append(cm)
                             print("epoch: ",e+1," step: ",(i+1)//self.print_every,"/",self.train_loops)
                             batch_loss=np.mean(self.loss_history[len(self.loss_history)-self.print_every:len(self.loss_history)-1])
                             print("Batch Loss: ",batch_loss)
-                            self.run.log('batch_loss',batch_loss)
+                            self.child_run.log('batch_loss',batch_loss)
                             print('train results: \n')
                             self.print_results(cm)
-                            self.log_results(self.run,'train',cm)
+                            self.log_results(self.child_run,'train',cm)
                             train_res=np.array([])
                             train_lbl=np.array([])
                         torch.cuda.empty_cache()
-                        
+                        if(i>5):
+                            break
+
                     print("epoch: ",e+1,"Train  Loss: ",np.mean(self.loss_history[-1*(len(train_loader)-1):]),"\n")
                     self.run.log('train_loss',np.mean(self.loss_history[-1*(len(train_loader)-1):]))
                     if(((e+1)>=self.validate_at_epoch)):
@@ -276,9 +280,9 @@ class BertFineTuning():
                         print("************************","\n")
                         self.cm_test.append(_cm)
                     checkpoint_path=self.save_it(self.save_folder)
-                    self.child_run.upload_file(name = checkpoint_path, path_or_stream = checkpoint_path)
+                    self.run.upload_file(name = checkpoint_path, path_or_stream = checkpoint_path)
                     self.scheduler.step() 
                     gc.collect()
-                    self.child_run.complete()
-            self.run.complete()
+                self.child_run.complete()
+        self.run.complete()
                     
