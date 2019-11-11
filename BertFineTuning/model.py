@@ -281,3 +281,6 @@ class BertFineTuning():
                     self.child_run.upload_file(name = checkpoint_path, path_or_stream = checkpoint_path)
                     self.scheduler.step() 
                     gc.collect()
+                    self.child_run.complete()
+            self.run.complete()
+                    
