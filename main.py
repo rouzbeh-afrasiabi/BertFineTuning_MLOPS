@@ -34,8 +34,6 @@ cwd = str(os.getcwd())
 sys.path.append(cwd)
 sys.path.insert(0, cwd)
 
-#release id
-release_id=str(uuid.uuid4())
 
 def download_files(files,download_folder):
     for file in files:
@@ -182,7 +180,6 @@ if __name__ == '__main__':
     auth_params= pipeline_params.copy()
     pipeline_params+=["--processed_data_ref",processed_data_ref]
     pipeline_params+=["--input_data_ref",input_data_ref]
-    pipeline_params+=["--release_id",release_id]
     process_step = PythonScriptStep(script_name="process.py",
                                    arguments=pipeline_params,
                                    inputs=[input_data_ref],
@@ -218,7 +215,7 @@ if __name__ == '__main__':
                             estimator=estimator,
                             estimator_entry_script_arguments=auth_params,
                             runconfig_pipeline_params=None,
-                            inputs=[processed_data_ref,input_data_ref],
+                            inputs=[],
                             outputs=[],
                             compute_target=compute_target_gpu)
     est_step.run_after(process_step)
