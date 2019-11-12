@@ -216,9 +216,9 @@ if __name__ == '__main__':
 
     est_step = EstimatorStep(name="Train_Step",
                             estimator=estimator,
-                            estimator_entry_script_arguments=pipeline_params,
+                            estimator_entry_script_arguments=auth_params,
                             runconfig_pipeline_params=None,
-                            inputs=[],
+                            inputs=[processed_data_ref,input_data_ref],
                             outputs=[],
                             compute_target=compute_target_gpu)
     est_step.run_after(process_step)
