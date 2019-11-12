@@ -23,7 +23,6 @@ import shutil
 import zipfile
 import argparse
 import json
-import uuid
 try:
     from download import download
 except:
