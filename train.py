@@ -51,6 +51,8 @@ def get_args():
     parser.add_argument("--workspace_name",  type=str, dest="workspace_name")
     parser.add_argument("--workspace_region",  type=str, dest="workspace_region")
     parser.add_argument("--object_id",  type=str, dest="object_id") 
+    parser.add_argument("--release_id",  type=str, dest="release_id") 
+    
     args = parser.parse_args()
 
     return(args)
@@ -65,6 +67,7 @@ def get_ws(args):
     workspace_name = args.workspace_name
     workspace_region = args.workspace_region
     object_id = args.object_id
+    release_id=args.release_id
 
     service_principal = ServicePrincipalAuthentication(
           tenant_id=tenant_id,
@@ -124,4 +127,5 @@ if (__name__ == "__main__"):
                                              blob_name=item.name,
                                             file_path=_loc)   
     print(os.listdir())
+    run.add_properties({"release_id":_params.release_id})
     train(run)
