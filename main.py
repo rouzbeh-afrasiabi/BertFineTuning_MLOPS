@@ -23,6 +23,7 @@ import shutil
 import zipfile
 import argparse
 import json
+import uuid
 try:
     from download import download
 except:
@@ -32,7 +33,10 @@ from project_config import *
 cwd = str(os.getcwd())
 sys.path.append(cwd)
 sys.path.insert(0, cwd)
-    
+
+#release id
+release_id=str(uuid.uuid4())
+
 def download_files(files,download_folder):
     for file in files:
         [[_,location]]=file.items()
@@ -156,7 +160,20 @@ if __name__ == '__main__':
                             path_on_datastore=f"{project_config['project_name']}/data/")
     
     processed_data_ref = PipelineData("processed_data_ref", datastore=def_blob_store)
+        
+    run_config = RunConfiguration()
+    run_config.environment.docker.enabled = True
+    run_config.environment.docker.base_image = DEFAULT_CPU_IMAGE
+    run_config.environment.python.user_managed_dependencies = False
+    pip_packages=[
+                "azureml-sdk==1.0.17", "scikit-learn==0.21.3",
+                "download==0.3.4", "pandas==0.25.1",
+                "spacy==2.1.4", "numpy==1.17.2"]
     
+    run_config.environment.python.conda_dependencies = CondaDependencies.create(pip_packages=pip_packages)  
+        
+
+        
     pipeline_params=[]    
     for k,v in vars(auth_params).items():
      pipeline_params.append("--"+k)
@@ -165,12 +182,15 @@ if __name__ == '__main__':
     auth_params= pipeline_params.copy()
     pipeline_params+=["--processed_data_ref",processed_data_ref]
     pipeline_params+=["--input_data_ref",input_data_ref]
+    pipeline_params+=["--release_id",release_id]
     process_step = PythonScriptStep(script_name="process.py",
                                    arguments=pipeline_params,
                                    inputs=[input_data_ref],
                                     outputs=[processed_data_ref],
                                    compute_target=compute_target_cpu,
-                                   source_directory='./')
+                                   source_directory='./',
+                                   runconfig=run_config
+                                   )
 #     step 2
     
     cluster_name = "gpucluster"
@@ -196,35 +216,19 @@ if __name__ == '__main__':
 
     est_step = EstimatorStep(name="Train_Step",
                             estimator=estimator,
-                            estimator_entry_script_arguments=auth_params,
+                            estimator_entry_script_arguments=pipeline_params,
                             runconfig_pipeline_params=None,
                             inputs=[],
                             outputs=[],
                             compute_target=compute_target_gpu)
     est_step.run_after(process_step)
 
+#     step 3
+
     
     
+
     
-    run_config = RunConfiguration()
-    run_config.environment.docker.enabled = True
-    run_config.environment.docker.base_image = DEFAULT_CPU_IMAGE
-    run_config.environment.python.user_managed_dependencies = False
-    pip_packages=[
-                "azureml-sdk==1.0.17", "scikit-learn==0.21.3",
-                "download==0.3.4", "pandas==0.25.1",
-                "spacy==2.1.4", "numpy==1.17.2"]
-    
-    run_config.environment.python.conda_dependencies = CondaDependencies.create(pip_packages=pip_packages)
-    run_config = RunConfiguration()
-    run_config.environment.docker.enabled = True
-    run_config.environment.docker.base_image = DEFAULT_CPU_IMAGE
-    run_config.environment.python.user_managed_dependencies = False
-    pip_packages=[
-                "azureml-sdk==1.0.17", "scikit-learn==0.21.3",
-                "download==0.3.4", "pandas==0.25.1",
-                "spacy==2.1.4", "numpy==1.17.2"]
-    run_config.environment.python.conda_dependencies = CondaDependencies.create(pip_packages=pip_packages)    
     
     
     pipeline = Pipeline(workspace=ws, steps=[process_step,est_step])
