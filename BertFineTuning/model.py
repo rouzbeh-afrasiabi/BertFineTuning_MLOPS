@@ -230,7 +230,7 @@ class BertFineTuning():
         self.train_loops=len(train_loader)//self.print_every
         
         self.run=experiment.start_logging()
-        self.run.add_properties({"run_type": "train"})
+        self.run.add_properties({"release_id":str(release_id),"run_type": "train"})
         for e in range(self.last_epoch,self.epochs,1):
             self.e=e
             self.child_run=self.run.child_run()
