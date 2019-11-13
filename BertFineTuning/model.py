@@ -272,7 +272,6 @@ class BertFineTuning():
                 self.test_loss_history.append(_loss)
                 print('valid loss: ', _loss)
                 self.run.log('valid_loss',_loss)
-                self.run.log('valid_loss',_loss)
                 self.print_results(_cm)
                 self.log_results(self.run,'validation',_cm)
                 print("************************","\n")
