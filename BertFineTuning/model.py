@@ -103,6 +103,7 @@ class BertFineTuning():
         self.model_name= self.config['model_name']
         self.save_folder='outputs/'
         self.ws=None
+        self.checkpoint_name=''
         
     @staticmethod
     def _update_dict_strict(target,**kwargs):
@@ -159,10 +160,12 @@ class BertFineTuning():
                     'train_loops':self.train_loops
                   }
         try:
-            torch.save(checkpoint,target_folder+'/'+'checkpoint'+str(self.e+1)+'.pth' )
+            self.checkpoint_name='checkpoint'+str(self.e+1)+'.pth'
+            _loc=os.path.join(target_folder,self.checkpoint_name)
+            torch.save(checkpoint,_loc)
             print("Model Saved.\n")
-            self.model.train()
-            return(target_folder+'/'+'checkpoint'+str(self.e+1)+'.pth')
+            self.model.train()           
+            return(_loc)
         except:
             print("Failed to Save Model!!")
             
@@ -281,6 +284,7 @@ class BertFineTuning():
                 self.cm_test.append(_cm)
             checkpoint_path=self.save_it(self.save_folder)
             self.run.upload_file(name = checkpoint_path, path_or_stream = checkpoint_path)
+            self.child_run.add_properties({"checkpoint_name":self.checkpoint_name})
             self.scheduler.step() 
             gc.collect()
             self.child_run.complete()
