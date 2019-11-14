@@ -160,7 +160,7 @@ class BertFineTuning():
                     'train_loops':self.train_loops
                   }
         try:
-            self.checkpoint_name='checkpoint'+str(self.e+1)+'.pth'
+            self.checkpoint_name=self.model_name+'_checkpoint_'+str(self.e+1)+'.pth'
             _loc=os.path.join(target_folder,self.checkpoint_name)
             torch.save(checkpoint,_loc)
             print("Model Saved.\n")
@@ -235,11 +235,13 @@ class BertFineTuning():
         self.train_loops=len(train_loader)//self.print_every
         
         self.run=experiment.start_logging()
-        self.run.add_properties({"release_id":self.release_id,"project_name":project_name,"run_type": "train_main"})
+        self.run.add_properties({"release_id":self.release_id,"project_name":self.project_name,
+                                 "model_name":self.model_name,"run_type": "train_main"})
         for e in range(self.last_epoch,self.epochs,1):
             self.e=e
             self.child_run=self.run.child_run()
-            self.child_run.add_properties({"release_id":self.release_id,"project_name":project_name,"run_type": "train_child"})
+            self.child_run.add_properties({"release_id":self.release_id,"project_name":self.project_name,
+                                           "model_name":self.model_name,"run_type": "train_child"})
             for i,(list_of_indices,segments_ids,labels) in enumerate(train_loader):
                 model.train()
                 list_of_indices,segments_ids,labels=list_of_indices.to(self.device),segments_ids.to(self.device),labels.to(self.device)
