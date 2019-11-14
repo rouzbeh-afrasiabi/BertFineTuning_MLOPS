@@ -208,6 +208,7 @@ class BertFineTuning():
         model=self.model
         self.run=MLOPS_run
         self.release_id=self.run.properties['release_id']
+        self.project_name=self.run.properties['project_name']
         experiment = self.run.experiment
         self.ws = self.run.experiment.workspace
         train_res=np.array([])
@@ -229,11 +230,11 @@ class BertFineTuning():
         self.train_loops=len(train_loader)//self.print_every
         
         self.run=experiment.start_logging()
-        self.run.add_properties({"release_id":self.release_id,"run_type": "train"})
+        self.run.add_properties({"release_id":self.release_id,"project_name":project_name,"run_type": "train_main"})
         for e in range(self.last_epoch,self.epochs,1):
             self.e=e
             self.child_run=self.run.child_run()
-            self.child_run.add_properties({"release_id":self.release_id,"run_type": "train_child"})
+            self.child_run.add_properties({"release_id":self.release_id,"project_name":project_name,"run_type": "train_child"})
             for i,(list_of_indices,segments_ids,labels) in enumerate(train_loader):
                 model.train()
                 list_of_indices,segments_ids,labels=list_of_indices.to(self.device),segments_ids.to(self.device),labels.to(self.device)
