@@ -264,7 +264,7 @@ class BertFineTuning():
                     print("epoch: ",e+1," step: ",(i+1)//self.print_every,"/",self.train_loops)
                     train_step_loss=np.mean(self.loss_history[len(self.loss_history)-self.print_every:len(self.loss_history)-1])
                     self.train_step_loss_all.append(train_step_loss)
-                    train_avg_loss=np.mean(chunks(self.train_step_loss_all,self.train_loops)[-1])
+                    train_avg_loss=np.mean(list(chunks(self.train_step_loss_all,self.train_loops))[-1])
                     print("Train step loss: ",train_step_loss)
                     print("train_avg_loss: ",train_avg_loss)
                     self.child_run.log('train_step_loss',train_step_loss)
