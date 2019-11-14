@@ -233,6 +233,7 @@ class BertFineTuning():
             self.cm_train=self.checkpoint['cm_train']
             self.last_epoch=self.checkpoint['last_epoch']
         self.train_loops=len(train_loader)//self.print_every
+        self.train_step_loss_all=[]
         
         self.run=experiment.start_logging()
         self.run.add_properties({"release_id":self.release_id,"project_name":self.project_name,
@@ -261,16 +262,21 @@ class BertFineTuning():
                     cm=ConfusionMatrix(train_lbl,train_res)
                     self.cm_train.append(cm)
                     print("epoch: ",e+1," step: ",(i+1)//self.print_every,"/",self.train_loops)
-                    train_batch_loss=np.mean(self.loss_history[len(self.loss_history)-self.print_every:len(self.loss_history)-1])
-                    print("Train batch loss: ",train_batch_loss)
-                    self.child_run.log('train_batch_loss',train_batch_loss)
+                    train_step_loss=np.mean(self.loss_history[len(self.loss_history)-self.print_every:len(self.loss_history)-1])
+                    self.train_step_loss_all.append(train_step_loss)
+                    train_avg_loss=np.mean(chunks(self.train_step_loss_all,self.train_loops)[-1])
+                    print("Train step loss: ",train_step_loss)
+                    print("train_avg_loss: ",train_avg_loss)
+                    self.child_run.log('train_step_loss',train_step_loss)
+                    self.child_run.log('train_avg_loss',train_avg_loss)
                     print('train results: \n')
                     self.print_results(cm)
                     self.log_results(self.child_run,'train',cm)
                     train_res=np.array([])
                     train_lbl=np.array([])
                 torch.cuda.empty_cache()
-
+                if((i+1)>self.print_every):
+                    break
             print("epoch: ",e+1,"Train  Loss: ",np.mean(self.loss_history[-1*(len(train_loader)-1):]),"\n")
             self.run.log('train_loss',np.mean(self.loss_history[-1*(len(train_loader)-1):]))
             if(((e+1)>=self.validate_at_epoch)):
