@@ -5,12 +5,6 @@ import warnings
 import re
 import uuid
 
-from azureml.core import Run
-from azureml.core import Workspace, Datastore
-from azureml.core.authentication import ServicePrincipalAuthentication
-from azureml.core.datastore import Datastore
-from azureml.data.data_reference import DataReference
-
 pip_packages=[
               "azureml-sdk==1.0.17", 
               "pandas==0.25.1",
@@ -26,6 +20,13 @@ for item in pip_packages:
         _command="pip install --upgrade "+item
         os.system(_command)
 
+
+from azureml.core import Run
+from azureml.core import Workspace, Datastore
+from azureml.core.authentication import ServicePrincipalAuthentication
+from azureml.core.datastore import Datastore
+from azureml.data.data_reference import DataReference
+        
 import numpy as np
 import pandas as pd
 
