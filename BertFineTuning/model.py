@@ -207,7 +207,7 @@ class BertFineTuning():
     def train(self,MLOPS_run,train_loader,valid_loader):
         model=self.model
         self.run=MLOPS_run
-        self.release_id=MLOPS_run.properties['release_id']
+        self.release_id=self.run.properties['release_id']
         experiment = self.run.experiment
         self.ws = self.run.experiment.workspace
         train_res=np.array([])
