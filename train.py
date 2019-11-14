@@ -128,5 +128,5 @@ if (__name__ == "__main__"):
                                              blob_name=item.name,
                                             file_path=_loc)   
     print(os.listdir())
-    run.add_properties({"release_id":release_id})
+    run.add_properties({"release_id":release_id,"project_name":project_config['project_name']})
     train()
