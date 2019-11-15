@@ -243,6 +243,7 @@ class BertFineTuning():
             self.child_run=self.run.child_run()
             self.child_run.add_properties({"release_id":self.release_id,"project_name":self.project_name,
                                            "model_name":self.model_name,"run_type": "train_child"})
+            self.child_run.log("epoch",e+1)
             for i,(list_of_indices,segments_ids,labels) in enumerate(train_loader):
                 model.train()
                 list_of_indices,segments_ids,labels=list_of_indices.to(self.device),segments_ids.to(self.device),labels.to(self.device)
@@ -256,8 +257,8 @@ class BertFineTuning():
                 _,prediction= torch.max(output, 1)  
                 train_res=np.append(train_res,(prediction.data.to('cpu')))
                 train_lbl=np.append(train_lbl,labels.data.cpu().numpy())
-                self.child_run.log("epoch",e+1)
-                self.child_run.log("step",(i+1)//self.print_every)
+                
+#                 self.child_run.log("step",(i+1)//self.print_every)
                 if((i+1)%self.print_every==0):
                     cm=ConfusionMatrix(train_lbl,train_res)
                     self.cm_train.append(cm)
