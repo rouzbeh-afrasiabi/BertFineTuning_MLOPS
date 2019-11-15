@@ -280,6 +280,7 @@ class BertFineTuning():
                     break
             print("epoch: ",e+1,"Train  Loss: ",np.mean(self.loss_history[-1*(len(train_loader)-1):]),"\n")
             self.child_run.log('train_loss',np.mean(self.loss_history[-1*(len(train_loader)-1):]))
+            self.run.log('train_loss',np.mean(self.loss_history[-1*(len(train_loader)-1):]))
             if(((e+1)>=self.validate_at_epoch)):
                 print("************************")
                 print("validation started ...","\n")
