@@ -257,9 +257,8 @@ class BertFineTuning():
                 _,prediction= torch.max(output, 1)  
                 train_res=np.append(train_res,(prediction.data.to('cpu')))
                 train_lbl=np.append(train_lbl,labels.data.cpu().numpy())
-                
-#                 self.child_run.log("step",(i+1)//self.print_every)
                 if((i+1)%self.print_every==0):
+                    self.child_run.log("step",(i+1)//self.print_every)
                     cm=ConfusionMatrix(train_lbl,train_res)
                     self.cm_train.append(cm)
                     print("epoch: ",e+1," step: ",(i+1)//self.print_every,"/",self.train_loops)
@@ -276,8 +275,6 @@ class BertFineTuning():
                     train_res=np.array([])
                     train_lbl=np.array([])
                 torch.cuda.empty_cache()
-                if((i+1)>self.print_every):
-                    break
             print("epoch: ",e+1,"Train  Loss: ",np.mean(self.loss_history[-1*(len(train_loader)-1):]),"\n")
             self.child_run.log('train_loss',np.mean(self.loss_history[-1*(len(train_loader)-1):]))
             self.run.log('train_loss',np.mean(self.loss_history[-1*(len(train_loader)-1):]))
